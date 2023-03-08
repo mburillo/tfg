@@ -4,7 +4,7 @@ import { Login } from '../componentes/Login';
 import { Inicio } from '../componentes/Inicio';
 import { Registro } from '../componentes/Registro';
 import { Perfil } from '../componentes/Perfil';
-import { Feed } from '../componentes/Feed';
+import { Feed } from '../componentes/Feed/Feed';
 import { RutaPrivada } from './RutaPrivada';
 import { Navegacion } from '../componentes/Navegacion';
 
