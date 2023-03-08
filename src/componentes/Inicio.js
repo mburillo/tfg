@@ -31,6 +31,7 @@ export const Inicio = () =>{
   const getUsuarios = async()=>{
     await axios.get(baseUrl)
     .then(response=>{
+      console.log(response)
       setData(response.data)
     })
   }

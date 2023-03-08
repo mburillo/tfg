@@ -1,6 +1,7 @@
 import { useParams, 	} from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import {	Link,} from 'react-router-dom';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 import axios from 'axios';
 import { Navegacion } from './Navegacion';
@@ -157,7 +158,7 @@ useEffect(()=>{
                       </div>
 
                       <div className="d-flex pt-1">
-                        <button type="button" className="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
+                      <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1">Chat</button></Link>
                         <button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
                       </div>
                     </div></>}

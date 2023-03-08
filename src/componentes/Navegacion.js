@@ -53,6 +53,9 @@ export const Navegacion = () => {
       				  		<li class="nav-item">
 							<Link to={`/`} className="navbar-brand"><span className='username'>Inicio</span></Link>
        					 </li>
+							<li class="nav-item">
+							<Link to={`/feed`} className="navbar-brand"><span className='username'>Feed</span></Link>
+       					 </li>
 						</ul>
 						<div className='d-flex'>
 							<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
