@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {	Link,} from 'react-router-dom';
-
+import axios from 'axios';
 export const Post = (datos) => {
+  const baseUrl="http://localhost/apiAplicacion/"
+  const [nLikesAct, setNlikes] = useState(parseInt(datos.nLikes));
+  const [nRepostsAct, setNreposts] = useState(parseInt(datos.nReposts));
+
+  async function darLike(){
+    var f = new FormData()
+    f.append("idPost", datos.post_id)
+    f.append("idCuenta",localStorage.getItem("login"))
+    f.append("ACTION","DAR_LIKE")
+    await axios.post(baseUrl, f)
+    .then(response=>{
+      setNlikes(nLikesAct + parseInt(response.data));
+    })
+  } 
+    
+  async function Repost(){
+    const baseUrl="http://localhost/apiAplicacion/"
+    var f = new FormData()
+    f.append("idPost", datos.post_id)
+    f.append("idCuenta",localStorage.getItem("login"))
+    f.append("ACTION","REPOST")
+    await axios.post(baseUrl, f)
+    .then(response=>{
+      console.log(parseInt(response.data))
+      console.log(nLikesAct)
+      setNreposts(nRepostsAct + parseInt(response.data));
+      console.log(nLikesAct)
+    })
+  } 
 
     return(
 
@@ -28,17 +57,17 @@ export const Post = (datos) => {
                 </p>
     
                 <div className="small d-flex justify-content-start">
-                  <a href="#!" className="d-flex align-items-center me-3">
+                  <a href="#!" onClick={darLike} className="d-flex align-items-center me-3">
                     <i className="far fa-thumbs-up me-2"></i>
-                    <p className="mb-0">Likes {datos.nLikes}</p>
+                    <p className="mb-0">Likes {nLikesAct}</p>
                   </a>
                   <a href="#!" className="d-flex align-items-center me-3">
                     <i className="far fa-comment-dots me-2"></i>
                     <p className="mb-0">Comment  {datos.nComentarios}</p>
                   </a>
-                  <a href="#!" className="d-flex align-items-center me-3">
+                  <a href="#!" onClick={Repost} className="d-flex align-items-center me-3">
                     <i className="fas fa-share me-2"></i>
-                    <p className="mb-0">Share  {datos.nReposts}</p>
+                    <p className="mb-0">Share  {nRepostsAct}</p>
                   </a>
                 </div>
               </div>

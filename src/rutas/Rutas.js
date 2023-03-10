@@ -4,6 +4,9 @@ import { Login } from '../componentes/Login';
 import { Inicio } from '../componentes/Inicio';
 import { Registro } from '../componentes/Registro';
 import { Perfil } from '../componentes/Perfil';
+
+import {Prueba } from '../componentes/prueba';
+
 import { Feed } from '../componentes/Feed/Feed';
 import { RutaPrivada } from './RutaPrivada';
 import { Navegacion } from '../componentes/Navegacion';
@@ -13,6 +16,7 @@ export const Rutas = () => {
 
 	<Routes>
 		
+		<Route path='/prueba' element={<Prueba />} />
         <Route path='/registro' element={<Registro />} />
 		<Route path='/login' element={<Login />} />
 		<Route path="/perfil/:idPerfil" element={<Perfil/>} />
