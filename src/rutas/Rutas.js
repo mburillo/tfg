@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Login } from '../componentes/Login';
-import { Inicio } from '../componentes/Inicio';
+import { Inicio } from '../componentes/ListaUsuarios/Inicio';
 import { Registro } from '../componentes/Registro';
 import { Perfil } from '../componentes/Perfil';
 
