@@ -118,18 +118,23 @@ export const Inicio = () =>{
         </div>
         <br />
         <div class="row">
-
+        <Paginacion
+                  postsPerPage={postsPerPage}
+                  totalPosts={data.length}
+                  paginate={paginate}/>
           <Listado
           data = {currentPosts}
-          />          
+          />       
+      
           <Paginacion
                   postsPerPage={postsPerPage}
                   totalPosts={data.length}
                   paginate={paginate}/>
+                  </div>   
 
           </div>
    
-      </div></>
+     </>
 
 
 

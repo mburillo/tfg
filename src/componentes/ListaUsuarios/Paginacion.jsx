@@ -8,6 +8,7 @@ export const Paginacion = ({ postsPerPage, totalPosts, paginate }) => {
   }
 
   return (
+    <div class="d-flex justify-content-center align-items-center">
     <nav>
       <ul className='pagination'>
         {pageNumbers.map(number => (
@@ -19,6 +20,7 @@ export const Paginacion = ({ postsPerPage, totalPosts, paginate }) => {
         ))}
       </ul>
     </nav>
+    </div>
   );
 };
 

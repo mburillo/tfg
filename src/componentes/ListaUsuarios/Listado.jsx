@@ -7,10 +7,14 @@ import { Navegacion } from '../Navegacion';
 import {Paginacion} from './Paginacion';
 export const Listado = ({data}) =>{
     const baseUrl="http://localhost/apiAplicacion/"
-  const [newData, setData] = useState(data)
-  const [modalEliminar, setModalEliminar]= useState(false);
-
- 
+const [newData, setData] = useState([])
+const [modalEliminar, setModalEliminar]= useState(false);
+const [datosCargados, setDatosCargados] = useState(false)
+useEffect(()=>{
+    setData(data)
+    setDatosCargados(true)
+    console.log(newData)
+  },[data])
 
   const [usuarioSeleccionado, setUsuarioSeleccionado]=useState({
     id: '',
@@ -29,7 +33,7 @@ export const Listado = ({data}) =>{
     await axios.post(baseUrl, f, {params: {id: usuarioSeleccionado.id}})
     .then(response=>{
         console.log(data)
-      setData(data.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
+      setData(newData.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
       abrirCerrarModalEliminar();
     }).catch(error=>{
       console.log(error);
@@ -46,10 +50,12 @@ export const Listado = ({data}) =>{
     setModalEliminar(!modalEliminar);
   }
 
-
+  if (!datosCargados) {
+    return <div>Cargando...</div>
+  }else{
     return(
       <> 
-        {data.map(usuario => (
+        {newData.map(usuario => (
                 <div class="col-xl-3 col-sm-4 mb-5">
                 <div class="bg-white rounded shadow-sm py-5 px-4"><img src={"data:image/png;base64,"+usuario.imagen} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
                     <Link to={`/perfil/${usuario.id}`}> <h5 class="mb-0">{usuario.nombre}</h5><span class="small text-uppercase text-muted">{usuario.lenguaje}</span></Link>
@@ -83,10 +89,6 @@ export const Listado = ({data}) =>{
           </ModalFooter>
         </Modal>
       </>
-
-
-
-      
-   
     )
+        }
 }
