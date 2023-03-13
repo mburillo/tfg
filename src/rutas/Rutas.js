@@ -9,6 +9,7 @@ import {Prueba } from '../componentes/prueba';
 
 import { Feed } from '../componentes/Feed/Feed';
 import { RutaPrivada } from './RutaPrivada';
+import {PostComentarios} from '../componentes/ComentariosPosts/PostComentarios'
 import { Navegacion } from '../componentes/Navegacion';
 
 export const Rutas = () => {
@@ -19,6 +20,7 @@ export const Rutas = () => {
 		<Route path='/prueba' element={<Prueba />} />
         <Route path='/registro' element={<Registro />} />
 		<Route path='/login' element={<Login />} />
+		<Route path='/post/:idPost' element={<PostComentarios/>}/>
 		<Route path="/perfil/:idPerfil" element={<Perfil/>} />
 		<Route path='/feed' element={<Feed />} />
 		<Route index element=

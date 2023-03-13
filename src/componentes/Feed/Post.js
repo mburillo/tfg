@@ -61,10 +61,10 @@ export const Post = (datos) => {
                     <i className="far fa-thumbs-up me-2"></i>
                     <p className="mb-0">Likes {nLikesAct}</p>
                   </a>
-                  <a href="#!" className="d-flex align-items-center me-3">
+                  <Link to={`/post/${datos.post_id}`}><a href="#!" className="d-flex align-items-center me-3">
                     <i className="far fa-comment-dots me-2"></i>
                     <p className="mb-0">Comment  {datos.nComentarios}</p>
-                  </a>
+                  </a></Link> 
                   <a href="#!" onClick={Repost} className="d-flex align-items-center me-3">
                     <i className="fas fa-share me-2"></i>
                     <p className="mb-0">Share  {nRepostsAct}</p>
