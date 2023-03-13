@@ -29,10 +29,10 @@ export const Login = () =>{
       console.log(f)
       await axios.post(baseUrl, f)
       .then(response=>{
-        console.log(response)
-          if(response.data.length>0){
-          localStorage.setItem('login',response.data[0].id)
-          localStorage.setItem('nombre',response.data[0].nombre)
+        console.log(response.data)
+          if(response.data!=false){
+          localStorage.setItem('login',response.data.id)
+          localStorage.setItem('nombre',response.data.nombre)
           navigate('/', {
 			replace: true,
 		/** 	state: {

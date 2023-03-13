@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import {
 	Link,
 	Outlet,
-	useLocation,
 	useNavigate,
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
-
+import axios from 'axios';
 export const Navegacion = () => {
-
+	const baseUrl="http://localhost/apiAplicacion/"
 	const navigate = useNavigate();
 
 	const [id, setID] = useState([])
 	const [nombre, setNombre] = useState([])
 	const [isLogged, setState] = useState([])
-
+	const [img, setImg] = useState([])
+	const [datosCargados, setDatosCargados] = useState(false)
 	useEffect(() => {
 	  const id = localStorage.getItem('login');
 	  setID(id);
@@ -31,6 +31,19 @@ export const Navegacion = () => {
 	  }
 	}, []);
 
+	const getUsuarioImg = async()=>{
+		await axios.get(baseUrl+"?idImagen="+id)
+		.then(response=>{
+		 	setImg(response.data)
+			setDatosCargados(true)
+		})
+	  }
+
+	useEffect(() => {
+		getUsuarioImg()
+	  }, [img]);
+  
+
 	const onLogout = () => {
 		localStorage.removeItem('login')
 		navigate('/login', {
@@ -38,6 +51,7 @@ export const Navegacion = () => {
 		});
 	};
 
+	
     return(
 		<>
 			
@@ -58,6 +72,7 @@ export const Navegacion = () => {
        					 </li>
 						</ul>
 						<div className='d-flex'>
+						<img src={"data:image/png;base64,"+img} alt="" width="50" height="50"  className="rounded-circle"/>
 							<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
 							<Button className='btn-logout' variant="danger" onClick={onLogout}>
 								Cerrar sesión
@@ -91,6 +106,6 @@ export const Navegacion = () => {
 			<Outlet />
 		</>
     )
-
+				
     };
 

@@ -11,7 +11,6 @@ export const Perfil =() => {
   const [data, setData] = useState([])
   const params = useParams();
 
-  const [img, setImg] = useState([])
   const [comentarios, setComentarios] = useState([])
   const [modalEditar, setModalEditar]= useState(false);
   const [credenciales, setCredenciales]=useState({
@@ -48,24 +47,14 @@ export const Perfil =() => {
   }
 
   const getUsuario = async()=>{
-    console.log(params.idPerfil)
     await axios.get(baseUrl+"?id="+params.idPerfil)
     .then(response=>{
-      setData(response.data)
+      setData(response.data[0])
       console.log(response.data)
     })
   }
 
-  const getUsuarioImg  = async()=>{
-   
-    await axios.get(baseUrl+"?imagenId="+params.idPerfil)
-   .then(response=>{
-      console.log(response.data)
-     setImg(response.data)   
-  })
-  //img src={"data:image/png;base64,"+img}
 
-}
 
 
 
@@ -107,7 +96,6 @@ const peticionPatch = async()=>{
   .then(response=>{
       console.log(response.data)
       getUsuario()
-      getUsuarioImg()
       abrirCerrarModalEditar()
   })
 }
@@ -116,10 +104,6 @@ const peticionPatch = async()=>{
 const abrirCerrarModalEditar=()=>{
   setModalEditar(!modalEditar);
 }
-
-useEffect(()=>{
-  getUsuarioImg()
-},[])
 
   useEffect(()=>{
     getUsuario()
@@ -136,7 +120,7 @@ useEffect(()=>{
             <div className="card-body p-4">
               <div className="d-flex text-black">
 
-                  {<>                <div className="flex-shrink-0"><img src={"data:image/png;base64,"+img} alt="imagen-perfil" width="100" height="100"  className="rounded-circle"/></div>
+                  {<><div className="flex-shrink-0"><img src={"data:image/png;base64,"+data.imagen} alt="imagen-perfil" width="100" height="100"  className="rounded-circle"/></div>
                     <div className="flex-grow-1 ms-3">
                       <h5 id="tarjeta-nombre" className="mb-1">{data.nombre}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
                       <div className="d-flex justify-content-start rounded-3 p-2 mb-2"

@@ -3,11 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 import {	Link,} from 'react-router-dom';
 import axios from 'axios';
-import { Navegacion } from './Navegacion';
+import { Navegacion } from '../Navegacion';
+import {Paginacion} from './Paginacion';
+import {Listado} from './Listado'
 export const Inicio = () =>{
     const baseUrl="http://localhost/apiAplicacion/"
   const [data, setData] = useState([])
   const [modalEliminar, setModalEliminar]= useState(false);
+
+  const [postsPerPage] = useState(8);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [usuarioSeleccionado, setUsuarioSeleccionado]=useState({
     id: '',
     nombre: '',
@@ -31,7 +37,7 @@ export const Inicio = () =>{
   const getUsuarios = async()=>{
     await axios.get(baseUrl)
     .then(response=>{
-      console.log(response)
+      console.log(response.data)
       setData(response.data)
     })
   }
@@ -49,7 +55,7 @@ export const Inicio = () =>{
     })
   }
 
-  const peticionDelete=async()=>{
+/**   const peticionDelete=async()=>{
     var f = new FormData();
     f.append("METHOD", "DELETE");
     console.log(usuarioSeleccionado.id)
@@ -71,13 +77,21 @@ export const Inicio = () =>{
 
   const abrirCerrarModalEliminar=()=>{
     setModalEliminar(!modalEliminar);
-  }
+  }*/
 
   useEffect(()=>{
     getUsuarios()
   },[])
+   // Get current posts
+ const indexOfLastPost = currentPage * postsPerPage;
+ const indexOfFirstPost = indexOfLastPost - postsPerPage;
+ const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+
+ // Change page
+ const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return(
-      <>    <Navegacion/><div style={{ textAlign: 'center' }}>
+      <>  <Navegacion /><div style={{ textAlign: 'center' }}>
         <div class="row">
           <div class="col-12">
             <nav class="navbar navbar-dark bg-dark">
@@ -104,63 +118,23 @@ export const Inicio = () =>{
         </div>
         <br />
         <div class="row">
-          <div class="col col-md-12">
-            <div>
-              <table className="table table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Lenguaje</th>
-                    <th>Nivel</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map(usuario => (
-                    <tr key={usuario.id}>
-                      <td>{usuario.id}</td>
-                      <td>  <Link to={`/perfil/${usuario.id}`}> {usuario.nombre}</Link></td>
-                      <td>{usuario.lenguaje}</td>
-                      <td>{usuario.nivel}</td>
-                      <td>
-                        <button className="btn btn-danger" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button>
-                      </td>
-                    </tr>
-                  ))}
+        <Paginacion
+                  postsPerPage={postsPerPage}
+                  totalPosts={data.length}
+                  paginate={paginate}/>
+          <Listado
+          data = {currentPosts}
+          />       
+      
+          <Paginacion
+                  postsPerPage={postsPerPage}
+                  totalPosts={data.length}
+                  paginate={paginate}/>
+                  </div>   
 
-
-                </tbody>
-
-              </table>
-            </div>
           </div>
-        </div>
-        <div class="row">
-
-
-
-
-        </div>
-        <Modal isOpen={modalEliminar}>
-          <ModalHeader>
-            Borrar usuario
-          </ModalHeader>
-          <ModalBody>
-            ¿Estás seguro que deseas eliminar el usuario {usuarioSeleccionado && usuarioSeleccionado.nombre}?
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-danger" onClick={() => peticionDelete()}>
-              Sí
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => abrirCerrarModalEliminar()}
-            >
-              No
-            </button>
-          </ModalFooter>
-        </Modal>
-      </div></>
+   
+     </>
 
 
 
