@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import {	Link,} from 'react-router-dom';
 import axios from 'axios';
 export const Post = (datos) => {
@@ -69,6 +69,10 @@ export const Post = (datos) => {
                     <i className="fas fa-share me-2"></i>
                     <p className="mb-0">Share  {nRepostsAct}</p>
                   </a>
+                  {datos.nombreReposter?  <div className="d-flex align-items-center me-3">
+                    <i className="fas fa-share me-2"></i>
+                    <p className="mb-0">Compartido por: <Link to={`/perfil/${datos.idReposter}`}> {datos.nombreReposter}</Link></p>
+                  </div> : null}
                 </div>
               </div>
               </div>

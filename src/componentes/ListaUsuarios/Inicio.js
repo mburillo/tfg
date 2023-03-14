@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
-import {	Link,} from 'react-router-dom';
+
 import axios from 'axios';
 import { Navegacion } from '../Navegacion';
 import {Paginacion} from './Paginacion';
@@ -35,7 +34,7 @@ export const Inicio = () =>{
   }
 
   const getUsuarios = async()=>{
-    await axios.get(baseUrl)
+    await axios.get(baseUrl+"?idInicio="+localStorage.getItem('login'))
     .then(response=>{
       console.log(response.data)
       setData(response.data)
@@ -129,7 +128,8 @@ export const Inicio = () =>{
           <Paginacion
                   postsPerPage={postsPerPage}
                   totalPosts={data.length}
-                  paginate={paginate}/>
+                  paginate={paginate}
+                  />
                   </div>   
 
           </div>

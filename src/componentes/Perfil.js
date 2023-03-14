@@ -13,6 +13,7 @@ export const Perfil =() => {
 
   const [comentarios, setComentarios] = useState([])
   const [modalEditar, setModalEditar]= useState(false);
+  const [siguiendo, setSiguiendo]= useState(false);
   const [credenciales, setCredenciales]=useState({
     id: params.idPerfil,
     usuario: data.nombre,
@@ -55,8 +56,27 @@ export const Perfil =() => {
   }
 
 
-
-
+async function Seguir(){
+  var f = new FormData();
+  f.append("idPerfil",params.idPerfil)
+  f.append("idSeguidor", localStorage.getItem('login'));
+  f.append("ACTION","SEGUIR")
+  await axios.post(baseUrl, f)
+  .then(response=>{
+    response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
+  })
+}
+async function esSeguidor(){
+  var f = new FormData();
+  f.append("idPerfil",params.idPerfil)
+  f.append("idSeguidor", localStorage.getItem('login'));
+  f.append("ACTION","ES_SEGUIDOR")
+  await axios.post(baseUrl, f)
+  .then(response=>{
+      console.log("SEGUIDOR"+response.data)
+      response.data==1 ? setSiguiendo(true) : setSiguiendo(false)      
+  })
+}
 
 const getComentarios= async()=>{
 
@@ -91,10 +111,10 @@ const peticionPatch = async()=>{
   f.append("lenguaje", credenciales.lenguaje);
   f.append("nivel",credenciales.nivel)
   f.append("imagen",picture.pictureAsFile)
-  f.append("METHOD","PATCH")
+  f.append("ACTION","PATCH")
   await axios.post(baseUrl, f)
   .then(response=>{
-      console.log(response.data)
+      localStorage.setItem('nombre',credenciales.usuario)
       getUsuario()
       abrirCerrarModalEditar()
   })
@@ -111,6 +131,9 @@ const abrirCerrarModalEditar=()=>{
 
   useEffect(()=>{
     getComentarios()
+  },[])
+  useEffect(()=>{
+    esSeguidor()
   },[])
   return (
        <><Navegacion /><div className="container py-5 h-100 vh-50">
@@ -143,7 +166,9 @@ const abrirCerrarModalEditar=()=>{
 
                       <div className="d-flex pt-1">
                       <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1">Chat</button></Link>
-                        <button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
+                      {data.id==localStorage.getItem('login')?<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
+                      : siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir()} >Dejar de seguir</button>
+                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir()} >Seguir</button>}  
                       </div>
                     </div></>}
               

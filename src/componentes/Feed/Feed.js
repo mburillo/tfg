@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Post } from './Post';
+import { PorSeguir } from './PorSeguir';
 import { Navegacion } from '../Navegacion';
 import axios from 'axios';
 import {	Link,} from 'react-router-dom';
@@ -14,7 +15,7 @@ export const Feed = () => {
   
 
   const getAllPosts = async()=>{
-    await axios.get(baseUrl+"?feed=true")
+    await axios.get(baseUrl+"?feed="+localStorage.getItem('login'))
     .then(response=>{
       console.log(response)
     setData(response.data)
@@ -22,10 +23,10 @@ export const Feed = () => {
   }
 
   const getWhoToFollow = async()=>{
-    await axios.get(baseUrl+"?porSeguir=true")
+    await axios.get(baseUrl+"?porSeguir="+localStorage.getItem('login'))
     .then(response=>{
       console.log(response)
-    setToFollow(response.data)
+      setToFollow(response.data)
     })
   }
 
@@ -115,7 +116,9 @@ export const Feed = () => {
           imagen={post.imagen}
           nComentarios={post.num_comments}
           nLikes={post.num_likes}
-          nReposts={post.num_respost}          
+          nReposts={post.num_respost}  
+          nombreReposter = {post.nombreReposter}   
+          idReposter = {post.idReposter}     
           />  
           </div>
           ))}
@@ -128,20 +131,12 @@ export const Feed = () => {
           <h3 style={{ position: 'absolute', top: '-40px' }}>A quien seguir</h3>
           {toFollow.map(profile => (
                   <>
-                 
-                    <div className='col-12'>
-                    <div style={{ width: '100%' }}>
-              <img className="rounded-circle shadow-1-strong me-3"
-              src={"data:image/png;base64,"+profile.imagen} alt="avatar" width="60"
-              height="60" /><div>
-
-                <Link to={`/perfil/${profile.id}`}><h6 className="fw-bold text-primary mb-1">{profile.nombre}</h6></Link>
-                <p className="text-muted small mb-0">
-                  Seguir
-                </p>
-              </div>
-              </div>
-              </div>
+                 <PorSeguir
+                imagen = {profile.imagen}
+                 nombre = {profile.nombre}
+                 id = {profile.id}
+                 />
+                
             
               </>
           ))}
