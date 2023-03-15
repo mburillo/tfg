@@ -12,6 +12,25 @@ useEffect(()=>{
     setData(data)
     setDatosCargados(true)
   },[data])
+  const [siguiendo, setSiguiendo] = useState({});
+  const seguirUsuario = (idUsuario) => {
+    setSiguiendo({...siguiendo, [idUsuario]: !siguiendo[idUsuario]});
+  }
+  
+  useEffect(() => {
+    // Inicializar el estado como que no se sigue a ningún usuario
+    const siguiendoInicial = {};
+    newData.forEach((usuario) => {
+      
+      if(usuario.seguidor_id){
+        console.log(usuario)
+        siguiendoInicial[usuario.id] = true;
+      } else{
+        siguiendoInicial[usuario.id] = false;
+      }
+    });
+    setSiguiendo(siguiendoInicial);
+  }, [newData]);
 
   const [usuarioSeleccionado, setUsuarioSeleccionado]=useState({
     id: '',
@@ -27,6 +46,7 @@ useEffect(()=>{
     f.append("ACTION","SEGUIR")
     await axios.post(baseUrl, f)
     .then(response=>{
+      seguirUsuario(id)
      // response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
     })
   }
@@ -69,8 +89,8 @@ useEffect(()=>{
                     <ul class="social mb-0 list-inline mt-3">
                     <li class="list-inline-item">
                       {localStorage.getItem('login')==usuario.id ? <button className="btn btn-danger" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button> 
-                      :usuario.seguidor_id ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir(usuario.id)} >Dejar de seguir</button>
-                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir(usuario.id)} >Seguir</button>  } 
+                      :siguiendo[usuario.id]?<button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir(usuario.id)} >Dejar de seguir</button>:  
+                       <button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir(usuario.id)} >Seguir</button>} 
                       
                       </li>
                 </ul>
