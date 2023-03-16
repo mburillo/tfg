@@ -4,6 +4,7 @@ import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 import {	Link,} from 'react-router-dom';
 import axios from 'axios';
 export const Listado = ({data}) =>{
+  
     const baseUrl="http://localhost/apiAplicacion/"
 const [newData, setData] = useState([])
 const [modalEliminar, setModalEliminar]= useState(false);
@@ -75,22 +76,36 @@ useEffect(()=>{
     setModalEliminar(!modalEliminar);
   }
 
+
+  const [indiceHovereado, setIndiceHovereado] = useState(-1);
+
+  const toggleHover = (index) => {
+    setIndiceHovereado(index);
+  };
   if (!datosCargados) {
     return <div>Cargando...</div>
   }else{
     return(
       <> 
-        {newData.map(usuario => (
-                <div class="col-xl-3 col-sm-4 mb-5">
-                <div class="bg-white rounded shadow-sm py-5 px-4"><img src={"data:image/png;base64,"+usuario.imagen} alt="" width="100" height="100" class="rounded-circle" />
+        {newData.map((usuario, indice) => (
+        <div class="col-xl-3 col-sm-4 mb-5">
+          <div  key={indice}
+            className={
+              indiceHovereado === indice
+              ? "bg-white rounded shadow py-5 px-4"
+              : "bg-white rounded shadow-sm py-5 px-4"
+          }
+          onMouseEnter={() => toggleHover(indice)}
+          onMouseLeave={() => toggleHover(-1)}>
+                  <img src={"data:image/png;base64,"+usuario.imagen} alt="" width="100" height="100" class="rounded-circle" />
                     <Link to={`/perfil/${usuario.id}`}> <h5 class="mb-0">{usuario.nombre}</h5> </Link>
                     <span class="small text-uppercase text-muted">{usuario.lenguaje}</span>
                   <span class="small text-uppercase text-muted"> {usuario.nivel}</span>
                     <ul class="social mb-0 list-inline mt-3">
                     <li class="list-inline-item">
-                      {localStorage.getItem('login')==usuario.id ? <button className="btn btn-danger" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button> 
-                      :siguiendo[usuario.id]?<button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir(usuario.id)} >Dejar de seguir</button>:  
-                       <button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir(usuario.id)} >Seguir</button>} 
+                      {localStorage.getItem('login')==usuario.id ? <button className="btn btn-danger rounded-pill" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button> 
+                      :siguiendo[usuario.id]?<button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1 rounded-pill"  onClick={() => Seguir(usuario.id)} >Dejar de seguir</button>:  
+                       <button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => Seguir(usuario.id)} >Seguir</button>} 
                       
                       </li>
                 </ul>

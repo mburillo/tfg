@@ -77,8 +77,8 @@ export const Feed = () => {
         <div className="row d-flex justify-content-center">
    
           <h1 className="text-center">Tu Feed</h1>
-          <div className="col-md-3 lg-3 d-flex justify-content-center align-items-center ">
-        <button style={{ position: 'fixed', top: '50%', width: '25%', zIndex: 999, display: 'block' }} type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1" onClick={() => abrirCerrarModalPublicar()}>Publicar</button>
+         <div className="col-md-3 lg-3 d-flex justify-content-center align-items-center ">
+        <button style={{ position: 'fixed', top: '50%', width: '25%', left:'3%', zIndex: 999, display: 'block' }} type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => abrirCerrarModalPublicar()}>Publicar</button>
     </div><Modal isOpen={modalPublicar}>
             <ModalHeader>
                 Hacer una publicación

@@ -74,7 +74,7 @@ export const Navegacion = () => {
 						<div className='d-flex'>
 						<img src={"data:image/png;base64,"+img} alt="" width="50" height="50"  className="rounded-circle"/>
 							<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
-							<Button className='btn-logout' variant="danger" onClick={onLogout}>
+							<Button className='btn-logout rounded-pill' variant="danger" onClick={onLogout}>
 								Cerrar sesión
 							</Button>
 						</div>

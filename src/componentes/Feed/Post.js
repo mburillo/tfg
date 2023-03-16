@@ -31,12 +31,23 @@ export const Post = (datos) => {
       console.log(nLikesAct)
     })
   } 
+  const [hovereado, setHovereado] = useState(false);
 
+  const toggleHover = () => {
+    setHovereado(!hovereado);
+  };
     return(
 
        
           <div className="col-md-12 col-lg-10 col-xl-8">
-            <div className="card">
+            <div 
+             className={
+              hovereado
+              ? "card shadow-lg"
+              : "card"
+          }
+          onMouseEnter={() => toggleHover()}
+          onMouseLeave={() => toggleHover()}>
               <div className="card-body">
                 <div className="d-flex flex-start align-items-center">
                   <img className="rounded-circle shadow-1-strong me-3"

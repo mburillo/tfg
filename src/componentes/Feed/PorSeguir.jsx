@@ -23,8 +23,8 @@ export const PorSeguir = (datos) => {
   height="60" /><div>
 
     <Link to={`/perfil/${datos.id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
-    {siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir()} >Dejar de seguir</button>
-                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir()} >Seguir</button>}
+    {siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Dejar de seguir</button>
+                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Seguir</button>}
   </div>
   </div>
   </div>

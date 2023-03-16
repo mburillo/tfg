@@ -100,7 +100,7 @@ export const Registro = () =>{
 			<div class="col-md-2"></div>
 			<div class="col-12">
 				<div class="d-flex justify-content-center">
-			  <input type="button" id="boton-registro"class="btn btn-primary" onClick={register} value="Registrarse"></input>
+			  <input type="button" id="boton-registro"class="btn btn-primary rounded-pill" onClick={register} value="Registrarse"></input>
 			  </div>
 			</div>
 		  </form>

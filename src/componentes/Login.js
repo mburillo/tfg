@@ -65,7 +65,7 @@ export const Login = () =>{
                     </div>
                     <div class="col col-md-8 p-2">
                         <div class="d-flex justify-content-center">
-                            <input type="button" class="btn btn-primary" id="boton-login" value="Acceder" onClick={login}/>
+                            <input type="button" class="btn btn-primary rounded-pill" id="boton-login" value="Acceder" onClick={login}/>
                            </div>
                     </div>
                 </div>

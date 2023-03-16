@@ -165,10 +165,10 @@ const abrirCerrarModalEditar=()=>{
                       </div>
 
                       <div className="d-flex pt-1">
-                      <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1">Chat</button></Link>
-                      {data.id==localStorage.getItem('login')?<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
-                      : siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1"  onClick={() => Seguir()} >Dejar de seguir</button>
-                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1"  onClick={() => Seguir()} >Seguir</button>}  
+                      <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1 rounded-pill">Chat</button></Link>
+                      {data.id==localStorage.getItem('login')?<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
+                      : siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Dejar de seguir</button>
+                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Seguir</button>}  
                       </div>
                     </div></>}
               
@@ -199,7 +199,7 @@ const abrirCerrarModalEditar=()=>{
 							<label class="form-label" for="textAreaExample">Escribe tu comentario</label>
 						  </div>
 						  <div class="d-flex justify-content-between mt-3">
-							<button type="button" class="btn btn-success" id="boton-guardar-comentario" onClick={() => guardarComentario()}>
+							<button type="button" class="btn btn-success rounded-pill" id="boton-guardar-comentario" onClick={() => guardarComentario()}>
 							  Enviar <i class="fas fa-long-arrow-alt-right ms-1"></i>
 							</button>
 						  </div>
