@@ -7,7 +7,6 @@ import { Navegacion } from './Navegacion';
 export const Registro = () =>{
 
     const baseUrl="http://localhost/apiAplicacion/"
-    const [data, setData] = useState([])
     const navigate = useNavigate();
     const [mostrarAlert, setMostrarAlert] = useState(false);
     const [credenciales, setCredenciales]=useState({

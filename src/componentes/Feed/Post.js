@@ -66,20 +66,19 @@ export const Post = (datos) => {
                 <p className="mt-3 mb-4 pb-2">
                  {datos.contenido}
                 </p>
-    
                 <div className="small d-flex justify-content-start">
-                  <a href="#!" onClick={darLike} className="d-flex align-items-center me-3">
-                    <i className="far fa-thumbs-up me-2"></i>
-                    <p className="mb-0">Likes {nLikesAct}</p>
-                  </a>
-                  <Link to={`/post/${datos.post_id}`}><a href="#!" className="d-flex align-items-center me-3">
-                    <i className="far fa-comment-dots me-2"></i>
-                    <p className="mb-0">Comment  {datos.nComentarios}</p>
-                  </a></Link> 
-                  <a href="#!" onClick={Repost} className="d-flex align-items-center me-3">
-                    <i className="fas fa-share me-2"></i>
-                    <p className="mb-0">Share  {nRepostsAct}</p>
-                  </a>
+                {datos.nLikes!=null ?  <><a href="#!" onClick={darLike} className="d-flex align-items-center me-3">
+              <i className="far fa-thumbs-up me-2"></i>
+              <p className="mb-0">Likes {nLikesAct}</p>
+            </a><Link to={`/post/${datos.post_id}`}><a href="#!" className="d-flex align-items-center me-3">
+              <i className="far fa-comment-dots me-2"></i>
+              <p className="mb-0">Comment  {datos.nComentarios}</p>
+            </a></Link><a href="#!" onClick={Repost} className="d-flex align-items-center me-3">
+                <i className="fas fa-share me-2"></i>
+                <p className="mb-0">Share  {nRepostsAct}</p>
+              </a></>: null}
+               
+             
                   {datos.nombreReposter?  <div className="d-flex align-items-center me-3">
                     <i className="fas fa-share me-2"></i>
                     <p className="mb-0">Compartido por: <Link to={`/perfil/${datos.idReposter}`}> {datos.nombreReposter}</Link></p>

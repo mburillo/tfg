@@ -66,6 +66,7 @@ const getRespuestas= async()=>{
   },[])
   if (!datosCargados) {
     return <div>Cargando...</div>
+    
   }else{
   return (
     <><Navegacion />
@@ -111,26 +112,21 @@ const getRespuestas= async()=>{
 </div>
        
 
-<div class="row d-flex justify-content-center mt-100 mb-100">
-			<div class="col-lg-8">
-				<div class="card p-4">
-					<div class="comment-widgets" id="comentarios-perfil">
-          {respuestas.map(respuesta => (
-          <div class="d-flex flex-row comment-row m-t-0">
 
-				  <div class="comment-text w-100">
-         
-          <Link to={`/perfil/${respuesta.usuario_id}`}>		<h6 class="fs-3 fw-bold"> <img className="rounded-circle shadow-1-strong me-3"
-                    src={"data:image/png;base64,"+respuesta.imagen} alt="avatar" width="60"
-                    height="60" />{respuesta.nombre}</h6></Link> <span class="m-b-15 d-block">{respuesta.contenido} </span>
-					<div class="comment-footer"> <span class="text-muted float-right">{respuesta.fecha}</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>	
-        </div>      
-			    </div>
+          {respuestas.map(respuesta => (
+              <div className="d-flex justify-content-center align-items-center">
+            <><Post
+              post_id={respuesta.repostId}
+              usuario_id={respuesta.usuario_id}
+              nombre={respuesta.nombre}
+              contenido={respuesta.contenido}
+              fecha={respuesta.fecha}
+              imagen={respuesta.imagen}
+              nComentarios={null}
+              nLikes={null}
+              nReposts={null}/></></div>
       		))}
-					</div> 
-				</div>
-			</div>
-		</div>
+			
         </>
      
      );

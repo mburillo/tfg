@@ -54,7 +54,7 @@ useEffect(()=>{
   
   const peticionDelete=async()=>{
     var f = new FormData();
-    f.append("METHOD", "DELETE");
+    f.append("ACTION", "DELETE");
     console.log(usuarioSeleccionado.id)
     await axios.post(baseUrl, f, {params: {id: usuarioSeleccionado.id}})
     .then(response=>{

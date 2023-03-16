@@ -1,5 +1,5 @@
 import { useParams, 	} from 'react-router-dom';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {	Link,} from 'react-router-dom';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
@@ -8,14 +8,15 @@ import { Navegacion } from './Navegacion';
 export const Perfil =() => {
 
   const baseUrl="http://localhost/apiAplicacion/"
-  const [data, setData] = useState([])
   const params = useParams();
-
+  const [idActual, setIdActual] = useState(params.idPerfil)
+  const [data, setData] = useState([])
   const [comentarios, setComentarios] = useState([])
   const [modalEditar, setModalEditar]= useState(false);
   const [siguiendo, setSiguiendo]= useState(false);
+  const [mostrarAlert, setMostrarAlert] = useState(false);
   const [credenciales, setCredenciales]=useState({
-    id: params.idPerfil,
+    id: idActual,
     usuario: data.nombre,
     lenguaje: 'PHP',
     nivel:'Principiante'
@@ -51,7 +52,7 @@ export const Perfil =() => {
 
   const getComentarios= async()=>{
 
-    await axios.get(baseUrl+"?idPerfil="+params.idPerfil)
+    await axios.get(baseUrl+"?idPerfil="+idActual)
     .then(response=>{
       console.log(response.data)
       setComentarios(response.data)  
@@ -59,7 +60,8 @@ export const Perfil =() => {
   }
 async function Seguir(){
   var f = new FormData();
-  f.append("idPerfil",params.idPerfil)
+  console.log(idActual)
+  f.append("idPerfil",idActual)
   f.append("idSeguidor", localStorage.getItem('login'));
   f.append("ACTION","SEGUIR")
   await axios.post(baseUrl, f)
@@ -69,7 +71,7 @@ async function Seguir(){
 }
 async function esSeguidor(){
   var f = new FormData();
-  f.append("idPerfil",params.idPerfil)
+  f.append("idPerfil",idActual)
   f.append("idSeguidor", localStorage.getItem('login'));
   f.append("ACTION","ES_SEGUIDOR")
   await axios.post(baseUrl, f)
@@ -86,7 +88,7 @@ async function esSeguidor(){
 const guardarComentario = async()=>{
   var f = new FormData();
   console.log(comentario.comentario)
-  f.append("idPerfil",params.idPerfil)
+  f.append("idPerfil",idActual)
   f.append("idComentador", localStorage.getItem('login'));
   f.append("comentario", comentario.comentario);
   f.append("ACTION","GUARDAR_COMENTARIO")
@@ -100,7 +102,7 @@ const guardarComentario = async()=>{
 
 const peticionPatch = async()=>{
   var f = new FormData();
-  f.append("id",credenciales.id)
+  f.append("id",idActual)
   f.append("usuario", credenciales.usuario);
   f.append("lenguaje", credenciales.lenguaje);
   f.append("nivel",credenciales.nivel)
@@ -108,9 +110,16 @@ const peticionPatch = async()=>{
   f.append("ACTION","PATCH")
   await axios.post(baseUrl, f)
   .then(response=>{
-      localStorage.setItem('nombre',credenciales.usuario)
-      getUsuario()
-      abrirCerrarModalEditar()
+      console.log(response.data)
+      if(response.data!=false){
+        localStorage.setItem('nombre',credenciales.usuario)
+        getUsuario()
+        abrirCerrarModalEditar()
+      } else{
+        abrirCerrarModalEditar()
+        setMostrarAlert(true)
+      }
+
   })
 }
 
@@ -119,21 +128,35 @@ const abrirCerrarModalEditar=()=>{
   setModalEditar(!modalEditar);
 }
 const getUsuario = async()=>{
-  await axios.get(baseUrl+"?id="+params.idPerfil)
+  await axios.get(baseUrl+"?id="+idActual)
   .then(response=>{
     setData(response.data[0])
     console.log(response.data)
   })
 }
+useEffect(()=>{
+  setIdActual(params.idPerfil)
+},[params.idPerfil])
   useEffect(()=>{
     getUsuario()
-  },[params.idPerfil])
+  },[idActual])
   useEffect(()=>{
     getComentarios()
-  },[params.idPerfil])
+  },[idActual])
   useEffect(()=>{
     esSeguidor()
   },[siguiendo])
+    
+ 
+  useEffect(() => {
+    if (mostrarAlert) {
+      const timer = setTimeout(() => {
+        setMostrarAlert(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [mostrarAlert]);
+
   return (
        <><Navegacion /><div className="container py-5 h-100 vh-50">
       <div className="row d-flex justify-content-center align-items-center h-100">
@@ -175,11 +198,9 @@ const getUsuario = async()=>{
             </div>
           </div>
         </div>
-      </div><div className="alert alert-success d-none alert-editar-success" role="alert">
-        Se ha editado el usuario
-      </div><div className="alert alert-danger d-none alert-editar" role="alert">
-        Ha habido un error editando el perfil
-      </div>
+      </div><div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`}role="alert">
+                Ha habido un error al editar el usuario
+            </div>
 </div>
 
 
