@@ -9,6 +9,7 @@ export const Registro = () =>{
     const baseUrl="http://localhost/apiAplicacion/"
     const [data, setData] = useState([])
     const navigate = useNavigate();
+    const [mostrarAlert, setMostrarAlert] = useState(false);
     const [credenciales, setCredenciales]=useState({
       usuario: '',
       clave: '',
@@ -42,13 +43,12 @@ export const Registro = () =>{
       f.append("nivel",credenciales.nivel)
       f.append("imagen",picture.pictureAsFile)
       f.append("ACTION","REGISTER")
-      for (var key of f.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-    }
       await axios.post(baseUrl, f)
       .then(response=>{
           console.log(response.data)
-          if(response.data!=null){
+          if(response.data!=false){
+            localStorage.setItem('login', response.data)
+            localStorage.setItem('nombre', credenciales.usuario)
             navigate('/', {
                 replace: true,
                 state: {
@@ -56,11 +56,21 @@ export const Registro = () =>{
                     name: credenciales.usuario,
                 },
             });
+          } else{
+            setMostrarAlert(true)
           }
       })
     }
   
   
+    useEffect(() => {
+      if (mostrarAlert) {
+        const timer = setTimeout(() => {
+          setMostrarAlert(false);
+        }, 5000);
+        return () => clearTimeout(timer);
+      }
+    }, [mostrarAlert]);
   
 
     return(
@@ -105,9 +115,9 @@ export const Registro = () =>{
 			</div>
 		  </form>
 
-		  <div class="alert alert-danger d-none alert-registro" role="alert">
-			Ha habido un error al registrarse
-		</div></>
+     <div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`}role="alert">
+                Ha habido un error al registrarse
+            </div></>
            
     )
     

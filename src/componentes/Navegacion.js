@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
 	Link,
 	Outlet,
-	useNavigate,
+	useNavigate
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
@@ -20,7 +20,7 @@ export const Navegacion = () => {
 	  const id = localStorage.getItem('login');
 	  setID(id);
 	}, []);
-
+	
 	
 	useEffect(() => {
 	  if(localStorage.getItem('login')){
@@ -45,13 +45,14 @@ export const Navegacion = () => {
   
 
 	const onLogout = () => {
+		setState(false)
 		localStorage.removeItem('login')
+		localStorage.removeItem('nombre')	
 		navigate('/login', {
 			replace: true,
 		});
 	};
 
-	
     return(
 		<>
 			
@@ -73,7 +74,7 @@ export const Navegacion = () => {
 						</ul>
 						<div className='d-flex'>
 						<img src={"data:image/png;base64,"+img} alt="" width="50" height="50"  className="rounded-circle"/>
-							<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
+						<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
 							<Button className='btn-logout rounded-pill' variant="danger" onClick={onLogout}>
 								Cerrar sesión
 							</Button>

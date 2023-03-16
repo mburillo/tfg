@@ -22,9 +22,10 @@ const getPost = async()=>{
     console.log(params.idPost)
     await axios.get(baseUrl+"?idPost="+params.idPost)
     .then(response=>{
+      console.log("HOLA ES AQUI")
       setPost(response.data[0])
       setDatosCargados(true)
-      console.log(response.data[0])
+      console.log(response)
     })
   }
 
@@ -79,6 +80,8 @@ const getRespuestas= async()=>{
         nComentarios={post.num_comments}
         nLikes={post.num_likes}
         nReposts={post.num_respost} 
+        nombreReposter = {post.nombreReposter}   
+        idReposter = {post.idReposter}     
         />
     </div>
     <div class="row d-flex justify-content-center mt-100 mb-100">

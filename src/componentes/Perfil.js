@@ -1,5 +1,5 @@
 import { useParams, 	} from 'react-router-dom';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {	Link,} from 'react-router-dom';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
@@ -47,15 +47,16 @@ export const Perfil =() => {
     }))
   }
 
-  const getUsuario = async()=>{
-    await axios.get(baseUrl+"?id="+params.idPerfil)
+ 
+
+  const getComentarios= async()=>{
+
+    await axios.get(baseUrl+"?idPerfil="+params.idPerfil)
     .then(response=>{
-      setData(response.data[0])
       console.log(response.data)
+      setComentarios(response.data)  
     })
   }
-
-
 async function Seguir(){
   var f = new FormData();
   f.append("idPerfil",params.idPerfil)
@@ -78,14 +79,7 @@ async function esSeguidor(){
   })
 }
 
-const getComentarios= async()=>{
 
-  await axios.get(baseUrl+"?idPerfil="+params.idPerfil)
-  .then(response=>{
-    console.log(response.data)
-    setComentarios(response.data)  
-  })
-}
 
 
 
@@ -124,17 +118,22 @@ const peticionPatch = async()=>{
 const abrirCerrarModalEditar=()=>{
   setModalEditar(!modalEditar);
 }
-
+const getUsuario = async()=>{
+  await axios.get(baseUrl+"?id="+params.idPerfil)
+  .then(response=>{
+    setData(response.data[0])
+    console.log(response.data)
+  })
+}
   useEffect(()=>{
     getUsuario()
-  },[])
-
+  },[params.idPerfil])
   useEffect(()=>{
     getComentarios()
-  },[])
+  },[params.idPerfil])
   useEffect(()=>{
     esSeguidor()
-  },[])
+  },[siguiendo])
   return (
        <><Navegacion /><div className="container py-5 h-100 vh-50">
       <div className="row d-flex justify-content-center align-items-center h-100">

@@ -11,7 +11,7 @@ export const Login = () =>{
       usuario: '',
       clave: ''
     });
-  
+    const [mostrarAlert, setMostrarAlert] = useState(false);
   
     const handleChange=e=>{
       const {name, value}=e.target;
@@ -35,17 +35,21 @@ export const Login = () =>{
           localStorage.setItem('nombre',response.data.nombre)
           navigate('/', {
 			replace: true,
-		/** 	state: {
-				logged: true,
-				name: credenciales.usuario,
-                id: response.data[0].id
-			},*/
 		});
+    } else{
+      setMostrarAlert(true)
     }
       })
     }
   
-  
+    useEffect(() => {
+      if (mostrarAlert) {
+        const timer = setTimeout(() => {
+          setMostrarAlert(false);
+        }, 5000);
+        return () => clearTimeout(timer);
+      }
+    }, [mostrarAlert]);
   
 
     return(
@@ -69,7 +73,7 @@ export const Login = () =>{
                            </div>
                     </div>
                 </div>
-            </form><div class="alert alert-danger d-none alert-login" role="alert">
+            </form><div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`}role="alert">
                 Ha habido un error al iniciar sesión
             </div></>
            
