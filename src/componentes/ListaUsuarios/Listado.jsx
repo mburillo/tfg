@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
-import {	Link,} from 'react-router-dom';
+import {	Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 export const Listado = ({data}) =>{
-  
+  const navigate = useNavigate();
+
     const baseUrl="http://localhost/apiAplicacion/"
 const [newData, setData] = useState([])
 const [modalEliminar, setModalEliminar]= useState(false);
@@ -61,6 +62,13 @@ useEffect(()=>{
         console.log(data)
       setData(newData.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
       abrirCerrarModalEliminar();
+      if(data){
+        localStorage.removeItem('login')
+        localStorage.removeItem('nombre')	
+        navigate('/login', {
+          replace: true,
+        });
+      }
     }).catch(error=>{
       console.log(error);
     })

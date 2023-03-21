@@ -53,29 +53,26 @@ export const Login = () =>{
   
 
     return(
-        <>    <Navegacion/><div class="col col-md-12">
-            <h1>Iniciar sesión</h1>
-        </div><form>
-                <div class=" justify-content-center">
-                    <div class="row">
-                        <div class="col col-md-8 p-2">
-                            <input type="text" class="form-control mr-sm-2" name="usuario" id="nombre-usuario-login" placeholder="Usuario" onChange={handleChange}/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col col-md-8 p-2">
-                            <input type="password" class="form-control mr-sm-2" name="clave" id="clave-usuario-login" placeholder="Contraseña"  onChange={handleChange}/>
-                        </div>
-                    </div>
-                    <div class="col col-md-8 p-2">
-                        <div class="d-flex justify-content-center">
-                            <input type="button" class="btn btn-primary rounded-pill" id="boton-login" value="Acceder" onClick={login}/>
-                           </div>
-                    </div>
+        <>    <Navegacion/>
+     <div class="col col-md-12 text-center">
+    <h1>Iniciar sesión</h1>
+</div>
+<form>
+    <div class="d-flex justify-content-center">
+        <div class="col col-md-6 p-2">
+            <div class="d-flex flex-column align-items-center">
+                <input type="text" class="form-control mb-2 mr-sm-2" name="usuario" id="nombre-usuario-login" placeholder="Usuario" onChange={handleChange}/>
+                <input type="password" class="form-control mb-2 mr-sm-2" name="clave" id="clave-usuario-login" placeholder="Contraseña" onChange={handleChange}/>
+                <div class="d-flex justify-content-center">
+                    <input type="button" class="btn btn-primary rounded-pill mx-auto" id="boton-login" value="Acceder" onClick={login}/>
                 </div>
-            </form><div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`}role="alert">
-                Ha habido un error al iniciar sesión
-            </div></>
+            </div>
+        </div>
+    </div>
+</form>
+<div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`} role="alert">
+    Ha habido un error al iniciar sesión
+</div></>
            
     )
     
