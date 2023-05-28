@@ -6,7 +6,7 @@ import { Navegacion } from '../Navegacion';
 import {Paginacion} from './Paginacion';
 import {Listado} from './Listado'
 export const Inicio = () =>{
-    const baseUrl="http://localhost/apiAplicacion/"
+    const baseUrl="http://localhost:8080/"
   const [data, setData] = useState([])
   const [modalEliminar, setModalEliminar]= useState(false);
 
@@ -34,7 +34,7 @@ export const Inicio = () =>{
   }
 
   const getUsuarios = async()=>{
-    await axios.get(baseUrl+"?idInicio="+localStorage.getItem('login'))
+    await axios.get(baseUrl + "getAll", { params: { userId: localStorage.getItem('login') } })
     .then(response=>{
       console.log(response.data)
       setData(response.data)
@@ -43,11 +43,9 @@ export const Inicio = () =>{
 
   const filtrarUsuarios = async()=>{
     var f = new FormData();
-    f.append("lenguaje", filtros.lenguaje);
-    f.append("nivel", filtros.nivel);
-    f.append("ACTION","FILTER")
-    console.log(f)
-    await axios.post(baseUrl, f)
+    f.append("language", filtros.lenguaje);
+    f.append("level", filtros.nivel);
+    await axios.post(baseUrl+"filter", f)
     .then(response=>{
         console.log(response)
       setData(response.data)
@@ -84,8 +82,9 @@ export const Inicio = () =>{
    // Get current posts
  const indexOfLastPost = currentPage * postsPerPage;
  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+ const usuarioLoggeadoId = localStorage.getItem('login');
+ const usuarioLoggeado = data.find(usuario => usuario.id == usuarioLoggeadoId);
  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
-
  // Change page
  const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -123,6 +122,7 @@ export const Inicio = () =>{
                   paginate={paginate}/>
           <Listado
           data = {currentPosts}
+          loggedUser ={usuarioLoggeado}
           />       
       
           <Paginacion

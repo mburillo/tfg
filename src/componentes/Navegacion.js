@@ -31,18 +31,11 @@ export const Navegacion = () => {
 	  }
 	}, []);
 
-	const getUsuarioImg = async()=>{
-		await axios.get(baseUrl+"?idImagen="+id)
-		.then(response=>{
-		 	setImg(response.data)
-			setDatosCargados(true)
-		})
-	  }
-
-	useEffect(() => {
-		getUsuarioImg()
-	  }, [img]);
-  
+	  useEffect(() => {
+		const imagePath = localStorage.getItem('image');
+		setImg(imagePath);
+	  }, []);
+	  
 
 	const onLogout = () => {
 		setState(false)
@@ -60,7 +53,7 @@ export const Navegacion = () => {
 				{isLogged ? (
 			<nav class="navbar navbar-expand-sm">
 				<h1>
-					<Link to='/' className="navbar-brand">InfoYobs</Link>
+					<Link to='/' className="navbar-brand">CodingTogether</Link>
 				</h1>
 				<div class="container-fluid">
 					<div class="collapse navbar-collapse" id="mynavbar">
@@ -73,11 +66,11 @@ export const Navegacion = () => {
        					 </li>
 						</ul>
 						<div className='d-flex'>
-						<img src={"data:image/png;base64,"+img} alt="" width="50" height="50"  className="rounded-circle"/>
+						<img src={"http://localhost:8080/images/"+img}alt="" width="50" height="50"  className="rounded-circle"/>
 						<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
 							<Button className='btn-logout rounded-pill' variant="danger" onClick={onLogout}>
 								Cerrar sesión
-							</Button>
+							</Button> 
 						</div>
 					</div>
 				</div>

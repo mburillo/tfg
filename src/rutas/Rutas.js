@@ -12,7 +12,7 @@ import { RutaPrivada } from './RutaPrivada';
 import { RutaPublica } from './RutaPublica';
 import {PostComentarios} from '../componentes/ComentariosPosts/PostComentarios'
 import { Navegacion } from '../componentes/Navegacion';
-
+import {VistaGraficas} from '../componentes/Graficas/VistaGraficas'
 export const Rutas = () => {
 	return (
 
@@ -39,6 +39,13 @@ export const Rutas = () => {
 							</RutaPrivada>
 						}
 					/>
+			<Route path='/graficas' element=
+						{
+							<RutaPrivada>
+								<VistaGraficas/>
+							</RutaPrivada>
+						}		
+						/>	
 			
 	</Routes>
 

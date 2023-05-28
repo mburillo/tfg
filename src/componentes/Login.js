@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navegacion } from './Navegacion';
 export const Login = () =>{
 
-    const baseUrl="http://localhost/apiAplicacion/"
+    const baseUrl="http://localhost:8080/login"
     const navigate = useNavigate();
     const [credenciales, setCredenciales]=useState({
       usuario: '',
@@ -23,16 +23,16 @@ export const Login = () =>{
 
     const login = async()=>{
       var f = new FormData();
-      f.append("usuario", credenciales.usuario);
-      f.append("clave", credenciales.clave);
-      f.append("ACTION","LOGIN")
+      f.append("username", credenciales.usuario);
+      f.append("password", credenciales.clave);
       console.log(f)
       await axios.post(baseUrl, f)
       .then(response=>{
         console.log(response.data)
           if(response.data!=false){
           localStorage.setItem('login',response.data.id)
-          localStorage.setItem('nombre',response.data.nombre)
+          localStorage.setItem('nombre',response.data.username)
+          localStorage.setItem('image', response.data.profileImage)
           navigate('/', {
 			replace: true,
 		});

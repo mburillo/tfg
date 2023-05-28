@@ -6,7 +6,7 @@ import { Navegacion } from './Navegacion';
 
 export const Registro = () =>{
 
-    const baseUrl="http://localhost/apiAplicacion/"
+    const baseUrl="http://localhost:8080/register"
     const navigate = useNavigate();
     const [mostrarAlert, setMostrarAlert] = useState(false);
     const [credenciales, setCredenciales]=useState({
@@ -46,8 +46,9 @@ export const Registro = () =>{
       .then(response=>{
           console.log(response.data)
           if(response.data!=false){
-            localStorage.setItem('login', response.data)
+            localStorage.setItem('login', response.data.id)
             localStorage.setItem('nombre', credenciales.usuario)
+            localStorage.setItem('image',response.data.profileImage)
             navigate('/', {
                 replace: true,
                 state: {

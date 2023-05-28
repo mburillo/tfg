@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 import {	Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-export const Listado = ({data}) =>{
+export const Listado = ({data, loggedUser}) =>{
   const navigate = useNavigate();
 
-    const baseUrl="http://localhost/apiAplicacion/"
+    const baseUrl="http://localhost:8080/"
 const [newData, setData] = useState([])
 const [modalEliminar, setModalEliminar]= useState(false);
 const [datosCargados, setDatosCargados] = useState(false)
@@ -20,12 +20,12 @@ useEffect(()=>{
   }
   
   useEffect(() => {
-    // Inicializar el estado como que no se sigue a ningún usuario
+    
     const siguiendoInicial = {};
-    newData.forEach((usuario) => {
-      
-      if(usuario.seguidor_id){
-        console.log(usuario)
+    console.log(loggedUser)
+    newData.forEach((usuario) => {   
+      console.log(usuario)
+     if (loggedUser.following.includes(usuario.id)){      
         siguiendoInicial[usuario.id] = true;
       } else{
         siguiendoInicial[usuario.id] = false;
@@ -45,8 +45,7 @@ useEffect(()=>{
     var f = new FormData();
     f.append("idPerfil",id)
     f.append("idSeguidor", localStorage.getItem('login'));
-    f.append("ACTION","SEGUIR")
-    await axios.post(baseUrl, f)
+    await axios.post(baseUrl+"follow", f)
     .then(response=>{
       seguirUsuario(id)
      // response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
@@ -55,9 +54,8 @@ useEffect(()=>{
   
   const peticionDelete=async()=>{
     var f = new FormData();
-    f.append("ACTION", "DELETE");
     console.log(usuarioSeleccionado.id)
-    await axios.post(baseUrl, f, {params: {id: usuarioSeleccionado.id}})
+    await axios.delete(`${baseUrl}delete/${usuarioSeleccionado.id}`)
     .then(response=>{
         console.log(data)
       setData(newData.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
@@ -105,10 +103,10 @@ useEffect(()=>{
           }
           onMouseEnter={() => toggleHover(indice)}
           onMouseLeave={() => toggleHover(-1)}>
-                  <img src={"data:image/png;base64,"+usuario.imagen} alt="" width="100" height="100" class="rounded-circle" />
-                    <Link to={`/perfil/${usuario.id}`}> <h5 class="mb-0">{usuario.nombre}</h5> </Link>
-                    <span class="small text-uppercase text-muted">{usuario.lenguaje}</span>
-                  <span class="small text-uppercase text-muted"> {usuario.nivel}</span>
+                  <img src={"http://localhost:8080/images/"+usuario.profileImage} alt="" width="100" height="100" class="rounded-circle" />
+                    <Link to={`/perfil/${usuario.id}`}> <h5 class="mb-0">{usuario.username}</h5> </Link>
+                    <span class="small text-uppercase text-muted">{usuario.favoriteLanguage.language}</span>
+                  <span class="small text-uppercase text-muted"> {usuario.favoriteLanguage.experienceLevel}</span>
                     <ul class="social mb-0 list-inline mt-3">
                     <li class="list-inline-item">
                       {localStorage.getItem('login')==usuario.id ? <button className="btn btn-danger rounded-pill" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button> 
@@ -129,7 +127,7 @@ useEffect(()=>{
             Borrar usuario
           </ModalHeader>
           <ModalBody>
-            ¿Estás seguro que deseas eliminar el usuario {usuarioSeleccionado && usuarioSeleccionado.nombre}?
+            ¿Estás seguro que deseas eliminar el usuario {usuarioSeleccionado && usuarioSeleccionado.username}?
           </ModalBody>
           <ModalFooter>
             <button className="btn btn-danger" onClick={() => peticionDelete()}>

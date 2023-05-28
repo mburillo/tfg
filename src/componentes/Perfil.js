@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Navegacion } from './Navegacion';
 export const Perfil =() => {
 
-  const baseUrl="http://localhost/apiAplicacion/"
+  const baseUrl="http://localhost:8080/"
   const params = useParams();
   const [idActual, setIdActual] = useState(params.idPerfil)
   const [data, setData] = useState([])
@@ -128,9 +128,11 @@ const abrirCerrarModalEditar=()=>{
   setModalEditar(!modalEditar);
 }
 const getUsuario = async()=>{
-  await axios.get(baseUrl+"?id="+idActual)
+  console.log("a")
+  await axios.get(baseUrl + "getById", { params: { userId: idActual } })
   .then(response=>{
-    setData(response.data[0])
+    console.log("e")
+    setData(response.data)
     console.log(response.data)
   })
 }
@@ -165,18 +167,18 @@ useEffect(()=>{
             <div className="card-body p-4">
               <div className="d-flex text-black">
 
-                  {<><div className="flex-shrink-0"><img src={"data:image/png;base64,"+data.imagen} alt="imagen-perfil" width="100" height="100"  className="rounded-circle"/></div>
+                  {<><div className="flex-shrink-0"><img src={"http://localhost:8080/images/"+data.profileImage} alt="imagen-perfil" width="100" height="100"  className="rounded-circle"/></div>
                     <div className="flex-grow-1 ms-3">
-                      <h5 id="tarjeta-nombre" className="mb-1">{data.nombre}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
+                      <h5 id="tarjeta-nombre" className="mb-1">{data.username}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
                       <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
                         style={{ background: "#efefef" }}>
                         <div>
                           <p className="small text-muted mb-1">Lenguaje</p>
-                          <p id="tarjeta-lenguaje" className="mb-0">{data.lenguaje}</p>
+                          <p id="tarjeta-lenguaje" className="mb-0">{data.favoriteLanguage.language}</p>
                         </div>
                         <div className="px-3">
                           <p className="small text-muted mb-1">Nivel</p>
-                          <p id="tarjeta-nivel" className="mb-0">{data.nivel}</p>
+                          <p id="tarjeta-nivel" className="mb-0">{data.favoriteLanguage.experienceLevel}</p>
                         </div>
                         <div>
                           <p className="small text-muted mb-1">Id</p>
