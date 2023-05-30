@@ -7,11 +7,11 @@ export const RutaPublica = ({ children }) => {
 	const [isLogged, setState] = useState(false)
 
 	useEffect(() => {
-	  if(localStorage.getItem('login')){
-		setState(true)
-	  }else{
-		setState(false);
-	  }
+		if (localStorage.getItem('login')) {
+			setState(true)
+		} else {
+			setState(false);
+		}
 	}, []);
-	return isLogged ?  <Navigate to='/' /> : children;
+	return isLogged ? <Navigate to='/' /> : children;
 };

@@ -1,153 +1,152 @@
-import { useParams, 	} from 'react-router-dom';
-import React, {useState, useEffect} from 'react';
+import { useParams, } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {	Link,} from 'react-router-dom';
-import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
+import { Link, } from 'react-router-dom';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import axios from 'axios';
 import { Navegacion } from './Navegacion';
-export const Perfil =() => {
+export const Perfil = () => {
 
-  const baseUrl="http://localhost:8080/"
+  const baseUrl = "http://localhost:8080/"
   const params = useParams();
   const [idActual, setIdActual] = useState(params.idPerfil)
   const [data, setData] = useState([])
   const [comentarios, setComentarios] = useState([])
-  const [modalEditar, setModalEditar]= useState(false);
-  const [siguiendo, setSiguiendo]= useState(false);
+  const [modalEditar, setModalEditar] = useState(false);
+  const [siguiendo, setSiguiendo] = useState(false);
   const [mostrarAlert, setMostrarAlert] = useState(false);
-  const [credenciales, setCredenciales]=useState({
+  const [credenciales, setCredenciales] = useState({
     id: idActual,
     usuario: data.nombre,
     lenguaje: 'PHP',
-    nivel:'Principiante'
+    nivel: 'Principiante'
   });
-  
+
   const [picture, setPicture] = useState({});
-  const [comentario, setComentario] = useState({comentario:''});
+  const [comentario, setComentario] = useState({ comentario: '' });
 
-    const uploadPicture = (e) => {
-      setPicture({
-        picturePreview: URL.createObjectURL(e.target.files[0]),
-        pictureAsFile: e.target.files[0],
-      });
+  const uploadPicture = (e) => {
+    setPicture({
+      picturePreview: URL.createObjectURL(e.target.files[0]),
+      pictureAsFile: e.target.files[0],
+    });
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setCredenciales((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  const cambioComentario = e => {
+    const { name, value } = e.target;
+    setComentario((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+
+
+  const getComentarios = async () => {
+
+    await axios.get(baseUrl + "?idPerfil=" + idActual)
+      .then(response => {
+        console.log(response.data)
+        setComentarios(response.data)
+      })
+  }
+  async function Seguir() {
+    var f = new FormData();
+    f.append("idPerfil", idActual)
+    f.append("idSeguidor", localStorage.getItem('login'));
+    await axios.post(baseUrl + "follow", f)
+      .then(response => {
+        console.log(response)
+        response.data == true ? setSiguiendo(true) : setSiguiendo(false)
+      })
+  }
+  async function esSeguidor() {
+    var f = new FormData();
+    f.append("idPerfil", idActual)
+    f.append("idSeguidor", localStorage.getItem('login'));
+    await axios.post(baseUrl + "isFollower", f)
+      .then(response => {
+        console.log("SEGUIDOR" + response.data)
+        response.data == true ? setSiguiendo(true) : setSiguiendo(false)
+      })
+  }
+
+
+
+
+
+  const guardarComentario = async () => {
+    var f = new FormData();
+    console.log(comentario.comentario)
+    f.append("idPerfil", idActual)
+    f.append("idComentador", localStorage.getItem('login'));
+    f.append("comentario", comentario.comentario);
+    f.append("ACTION", "GUARDAR_COMENTARIO")
+    await axios.post(baseUrl, f)
+      .then(response => {
+        console.log(response.data)
+        getComentarios()
+      })
+  }
+
+
+  const peticionPatch = async () => {
+    const payload = {
+      id: idActual,
+      usuario: credenciales.usuario,
+      lenguaje: credenciales.lenguaje,
+      nivel: credenciales.nivel,
+      imagen: picture.pictureAsFile
     };
+    await axios.patch(baseUrl + "update", payload)
+      .then(response => {
+        console.log(response.data);
+        if (response.data !== false) {
+          localStorage.setItem('nombre', response.data.username);
+          getUsuario();
+          abrirCerrarModalEditar();
+        } else {
+          abrirCerrarModalEditar();
+          setMostrarAlert(true);
+        }
+      });
+  };
 
-  const handleChange=e=>{
-    const {name, value}=e.target;
-    setCredenciales((prevState)=>({
-      ...prevState,
-      [name]: value
-    }))
+
+  const abrirCerrarModalEditar = () => {
+    setModalEditar(!modalEditar);
   }
-
-  const cambioComentario=e=>{
-    const {name, value}=e.target;
-    setComentario((prevState)=>({
-      ...prevState,
-      [name]: value
-    }))
+  const getUsuario = async () => {
+    console.log("a")
+    await axios.get(baseUrl + "getById", { params: { userId: idActual } })
+      .then(response => {
+        console.log("e")
+        setData(response.data)
+        console.log(response.data)
+      })
   }
-
- 
-
-  const getComentarios= async()=>{
-
-    await axios.get(baseUrl+"?idPerfil="+idActual)
-    .then(response=>{
-      console.log(response.data)
-      setComentarios(response.data)  
-    })
-  }
-async function Seguir(){
-  var f = new FormData();
-  f.append("idPerfil",idActual)
-  f.append("idSeguidor", localStorage.getItem('login'));
-  await axios.post(baseUrl+"follow", f)
-  .then(response=>{
-    console.log(response)
-    response.data==true ? setSiguiendo(true) : setSiguiendo(false)     
-  })
-}
-async function esSeguidor(){
-  var f = new FormData();
-  f.append("idPerfil",idActual)
-  f.append("idSeguidor", localStorage.getItem('login'));
-  await axios.post(baseUrl+"isFollower", f)
-  .then(response=>{
-      console.log("SEGUIDOR"+response.data)
-      response.data==true ? setSiguiendo(true) : setSiguiendo(false)      
-  })
-}
-
-
-
-
-
-const guardarComentario = async()=>{
-  var f = new FormData();
-  console.log(comentario.comentario)
-  f.append("idPerfil",idActual)
-  f.append("idComentador", localStorage.getItem('login'));
-  f.append("comentario", comentario.comentario);
-  f.append("ACTION","GUARDAR_COMENTARIO")
-  await axios.post(baseUrl, f)
-  .then(response=>{
-      console.log(response.data)
-      getComentarios()
-  })
-}
-
-
-const peticionPatch = async()=>{
-  var f = new FormData();
-  f.append("id",idActual)
-  f.append("usuario", credenciales.usuario);
-  f.append("lenguaje", credenciales.lenguaje);
-  f.append("nivel",credenciales.nivel)
-  f.append("imagen",picture.pictureAsFile)
-  f.append("ACTION","PATCH")
-  await axios.post(baseUrl, f)
-  .then(response=>{
-      console.log(response.data)
-      if(response.data!=false){
-        localStorage.setItem('nombre',credenciales.usuario)
-        getUsuario()
-        abrirCerrarModalEditar()
-      } else{
-        abrirCerrarModalEditar()
-        setMostrarAlert(true)
-      }
-
-  })
-}
-
-
-const abrirCerrarModalEditar=()=>{
-  setModalEditar(!modalEditar);
-}
-const getUsuario = async()=>{
-  console.log("a")
-  await axios.get(baseUrl + "getById", { params: { userId: idActual } })
-  .then(response=>{
-    console.log("e")
-    setData(response.data)
-    console.log(response.data)
-  })
-}
-useEffect(()=>{
-  setIdActual(params.idPerfil)
-},[params.idPerfil])
-  useEffect(()=>{
+  useEffect(() => {
+    setIdActual(params.idPerfil)
+  }, [params.idPerfil])
+  useEffect(() => {
     getUsuario()
-  },[idActual])
-  useEffect(()=>{
+  }, [idActual])
+  useEffect(() => {
     getComentarios()
-  },[idActual])
-  useEffect(()=>{
+  }, [idActual])
+  useEffect(() => {
     esSeguidor()
-  },[siguiendo])
-    
- 
+  }, [siguiendo])
+
+
   useEffect(() => {
     if (mostrarAlert) {
       const timer = setTimeout(() => {
@@ -157,145 +156,97 @@ useEffect(()=>{
     }
   }, [mostrarAlert]);
   if (data.length === 0) {
-    return <div>Cargando...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+    return <div>Cargando...</div>;
   }
   return (
-       <><Navegacion /><div className="container py-5 h-100 vh-50">
+    <><Navegacion /><div className="container py-5 h-100 vh-50">
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col col-md-9 col-lg-7 col-xl-5">
           <div className="card" style={{ radius: "15px" }}>
             <div className="card-body p-4">
               <div className="d-flex text-black">
 
-                  {<><div className="flex-shrink-0"><img src={"http://localhost:8080/images/"+data.profileImage} alt="imagen-perfil" width="100" height="100"  className="rounded-circle"/></div>
-                    <div className="flex-grow-1 ms-3">
-                      <h5 id="tarjeta-nombre" className="mb-1">{data.username}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
-                      <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
-                        style={{ background: "#efefef" }}>
-                        <div>
-                          <p className="small text-muted mb-1">Lenguaje</p>
-                          <p id="tarjeta-lenguaje" className="mb-0">{data.favoriteLanguage.language}</p>
-                        </div>
-                        <div className="px-3">
-                          <p className="small text-muted mb-1">Nivel</p>
-                          <p id="tarjeta-nivel" className="mb-0">{data.favoriteLanguage.experienceLevel}</p>
-                        </div>
-                        <div>
-                          <p className="small text-muted mb-1">Id</p>
-                          <p id="tarjeta-id" className="mb-0">{data.id}</p>
-
-                        </div>
+                {<><div className="flex-shrink-0"><img src={"http://localhost:8080/images/" + data.profileImage} alt="imagen-perfil" width="100" height="100" className="rounded-circle" /></div>
+                  <div className="flex-grow-1 ms-3">
+                    <h5 id="tarjeta-nombre" className="mb-1">{data.username}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
+                    <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
+                      style={{ background: "#efefef" }}>
+                      <div>
+                        <p className="small text-muted mb-1">Lenguaje</p>
+                        <p id="tarjeta-lenguaje" className="mb-0">{data.favoriteLanguage.language}</p>
+                      </div>
+                      <div className="px-3">
+                        <p className="small text-muted mb-1">Nivel</p>
+                        <p id="tarjeta-nivel" className="mb-0">{data.favoriteLanguage.experienceLevel}</p>
+                      </div>
+                      <div>
+                        <p className="small text-muted mb-1">Id</p>
+                        <p id="tarjeta-id" className="mb-0">{data.id}</p>
 
                       </div>
 
-                      <div className="d-flex pt-1">
+                    </div>
+
+                    <div className="d-flex pt-1">
                       <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1 rounded-pill">Chat</button></Link>
-                      {data.id==localStorage.getItem('login')?<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => abrirCerrarModalEditar()} >Editar</button>
-                      : siguiendo ? <button type="button" id="boton-abrir-modal-editar"className="btn btn-danger flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Dejar de seguir</button>
-                      :<button type="button" id="boton-abrir-modal-editar"className="btn btn-primary flex-grow-1 rounded-pill"  onClick={() => Seguir()} >Seguir</button>}  
-                      </div>
-                    </div></>}
-              
+                      {data.id == localStorage.getItem('login') ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => abrirCerrarModalEditar()} >Editar</button>
+                        : siguiendo ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-danger flex-grow-1 rounded-pill" onClick={() => Seguir()} >Dejar de seguir</button>
+                          : <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => Seguir()} >Seguir</button>}
+                    </div>
+                  </div></>}
+
               </div>
             </div>
           </div>
         </div>
-      </div><div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`}role="alert">
-                Ha habido un error al editar el usuario
-            </div>
-</div>
-
-
-<div class="row d-flex justify-content-center mt-100 mb-100">
-
-				<div class="col-lg-6">
-				  <div class="card">
-					<div class="card-body p-4">
-					  <div class="d-flex flex-start w-100">
-
-						<div class="w-100">
-						  <h5>Añadir un comentario</h5>
-
-						  <div class="form-outline">
-							<textarea class="form-control" name="comentario"  onChange={cambioComentario} id="contenido-texto" rows="4"></textarea>
-							<label class="form-label" for="textAreaExample">Escribe tu comentario</label>
-						  </div>
-						  <div class="d-flex justify-content-between mt-3">
-							<button type="button" class="btn btn-success rounded-pill" id="boton-guardar-comentario" onClick={() => guardarComentario()}>
-							  Enviar <i class="fas fa-long-arrow-alt-right ms-1"></i>
-							</button>
-						  </div>
-						</div>
-					  </div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-
-    <div class="row d-flex justify-content-center mt-100 mb-100">
-			<div class="col-lg-6 p-2">
-				<div class="card p-4">
-					<div class="card-body text-center">
-						<h4 class="card-title">Últimos comentarios</h4>
-					</div>
-					<div class="comment-widgets" id="comentarios-perfil">
-          {comentarios.map(comentario => (
-          <div class="d-flex flex-row comment-row m-t-0">
-
-				  <div class="comment-text w-100">
-					<h6 class="fs-3 fw-bold">{comentario.nombre_usuario}</h6> <span class="m-b-15 d-block">{comentario.contenido} </span>
-					<div class="comment-footer"> <span class="text-muted float-right">{comentario.fecha}</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>	
-        </div>      
-			    </div>
-      		))}
-					</div> 
-				</div>
-			</div>
-		</div>
-
-<Modal isOpen={modalEditar}>
-          <ModalHeader>
-            Editar usuario
-          </ModalHeader>
-          <ModalBody>
-          <div class="col-md-12">
-			  <label htmlFor="inputEmail4"  className="form-label" >  Nombre de usuario</label>
-			  <input type="text" class="form-control" name="usuario" id="nombre-usuario-registro" value={credenciales.usuario} onChange={handleChange}/>
-			</div>
-      <div class="col-md-12">
-			  <label htmlFor="inputState" className="form-label"  >Lenguaje de programación que más maneja</label>
-			  <select id="select-lenguaje" class="form-select" name="lenguaje"  onChange={handleChange}>
-              <option selected>PHP</option>
-			  <option>Java</option>
-			  </select>
-			</div>
-			<div class="col-md-12">
-			<label htmlFor="inputState" className="form-label">Nivel en ese lenguaje</label>
-			<select id="select-nivel" name="nivel" class="form-select" onChange={handleChange} >
-			  <option selected>Principiante</option>
-			  <option>Medio</option>
-			  <option>Avanzado</option>
-			</select>
-			</div>
-      <div class="col-md-6">
-            <label>
-        Selecciona una imagen:
-        <input type="file" name="image" onChange={uploadPicture} />
-      </label>
+      </div><div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`} role="alert">
+        Ha habido un error al editar el usuario
       </div>
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-warning" onClick={() => peticionPatch()}>
+    </div>
+
+
+      <Modal isOpen={modalEditar}>
+        <ModalHeader>
+          Editar usuario
+        </ModalHeader>
+        <ModalBody>
+          <div class="col-md-12">
+            <label htmlFor="inputEmail4" className="form-label" >  Nombre de usuario</label>
+            <input type="text" class="form-control" name="usuario" id="nombre-usuario-registro" value={data.username} onChange={handleChange} />
+          </div>
+          <div class="col-md-12">
+            <label htmlFor="inputState" className="form-label"  >Lenguaje de programación que más maneja</label>
+            <select id="select-lenguaje" class="form-select" name="lenguaje" onChange={handleChange}>
+              <option selected>PHP</option>
+              <option>Java</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label htmlFor="inputState" className="form-label">Nivel en ese lenguaje</label>
+            <select id="select-nivel" name="nivel" class="form-select" onChange={handleChange} >
+              <option selected>Principiante</option>
+              <option>Medio</option>
+              <option>Avanzado</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>
+              Selecciona una imagen:
+              <input type="file" name="image" onChange={uploadPicture} />
+            </label>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-warning" onClick={() => peticionPatch()}>
             Editar
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => abrirCerrarModalEditar()}
-            >
-              Cancelar
-            </button>
-          </ModalFooter>
-        </Modal>
-      </>);
-      }
-      
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => abrirCerrarModalEditar()}
+          >
+            Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+    </>);
+}
