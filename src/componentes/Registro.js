@@ -41,7 +41,6 @@ export const Registro = () =>{
       f.append("lenguaje", credenciales.lenguaje);
       f.append("nivel",credenciales.nivel)
       f.append("imagen",picture.pictureAsFile)
-      f.append("ACTION","REGISTER")
       await axios.post(baseUrl, f)
       .then(response=>{
           console.log(response.data)

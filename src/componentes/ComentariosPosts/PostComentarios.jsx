@@ -11,7 +11,7 @@ import {Post} from '../Feed/Post'
 
 export const PostComentarios =() => {
 
-  const baseUrl="http://localhost/apiAplicacion/"
+  const baseUrl="http://localhost:8080/"
   const [post, setPost] = useState([])
   const [comentario, setComentario] = useState({comentario:''});
   const [datosCargados, setDatosCargados] = useState(false)
@@ -20,12 +20,12 @@ export const PostComentarios =() => {
 
 const getPost = async()=>{
     console.log(params.idPost)
-    await axios.get(baseUrl+"?idPost="+params.idPost)
+    await axios.get(baseUrl+"getPost/"+params.idPost)
     .then(response=>{
       console.log("HOLA ES AQUI")
-      setPost(response.data[0])
+      setPost(response.data)
       setDatosCargados(true)
-      console.log(response)
+      console.log(response.data)
     })
   }
 
@@ -39,11 +39,10 @@ const getPost = async()=>{
   const guardarComentario = async()=>{
     var f = new FormData();
     console.log(comentario.comentario)
-    f.append("idPost",post.post_id)
+    f.append("idPost",post.id)
     f.append("idComentador", localStorage.getItem('login'));
     f.append("comentario", comentario.comentario);
-    f.append("ACTION","GUARDAR_RESPUESTA")
-    await axios.post(baseUrl, f)
+    await axios.post(baseUrl+"nestPost", f)
     .then(response=>{
         console.log(response.data)
        // getComentarios()
@@ -52,9 +51,9 @@ const getPost = async()=>{
   
 const getRespuestas= async()=>{
 
-    await axios.get(baseUrl+"?idPostComentarios="+params.idPost)
+    await axios.get(baseUrl+"getPostReplies/"+params.idPost)
     .then(response=>{
-      console.log(response.data)
+      console.log("RESPUESTAS!!!!"+response.data)
       setRespuestas(response.data)  
     })
   }
@@ -71,19 +70,19 @@ const getRespuestas= async()=>{
   return (
     <><Navegacion />
     <div className="d-flex justify-content-center align-items-center">
-        <Post
-        post_id={post.post_id}
-        usuario_id={post.usuario_id}
-        nombre={post.nombre}
-        contenido={post.contenido_post}
-        fecha={post.creado_en}
-        imagen={post.imagen}
-        nComentarios={post.num_comments}
-        nLikes={post.num_likes}
-        nReposts={post.num_respost} 
-        nombreReposter = {post.nombreReposter}   
-        idReposter = {post.idReposter}     
-        />
+    <Post
+          post_id={post.id}
+          usuario_id={post.user.id}
+          nombre={post.user.username}
+          contenido={post.content}
+          fecha={post.createdAt}
+          imagen={post.user.profileImage}
+          nComentarios={post.replies.length}
+          nLikes={post.likes.length}
+          nReposts={post.reposts.length}  
+          nombreReposter = {post.nombreReposter}   
+          idReposter = {post.idReposter}     
+          />  
     </div>
     <div class="row d-flex justify-content-center mt-100 mb-100">
 
@@ -93,7 +92,7 @@ const getRespuestas= async()=>{
       <div class="d-flex flex-start w-100">
 
         <div class="w-100">
-          <h5>Respondiendo a {post.nombre}</h5>
+          <h5>Respondiendo a {post.user.username}</h5>
 
           <div class="form-outline">
             <textarea class="form-control" name="comentario"  onChange={cambioComentario}  id="contenido-texto" rows="2"></textarea>
@@ -116,15 +115,17 @@ const getRespuestas= async()=>{
           {respuestas.map(respuesta => (
               <div className="d-flex justify-content-center align-items-center">
             <><Post
-              post_id={respuesta.repostId}
-              usuario_id={respuesta.usuario_id}
-              nombre={respuesta.nombre}
-              contenido={respuesta.contenido}
-              fecha={respuesta.fecha}
-              imagen={respuesta.imagen}
-              nComentarios={null}
-              nLikes={null}
-              nReposts={null}/></></div>
+               post_id={respuesta.id}
+               usuario_id={respuesta.user.id}
+               nombre={respuesta.user.username}
+               contenido={respuesta.content}
+               fecha={respuesta.createdAt}
+               imagen={respuesta.user.profileImage}
+               nComentarios={null}
+               nLikes={null}
+               nReposts={null}  
+               nombreReposter = {respuesta.nombreReposter}   
+               idReposter = {respuesta.idReposter}     /></></div>
       		))}
 			
         </>

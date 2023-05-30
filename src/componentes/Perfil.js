@@ -60,24 +60,22 @@ export const Perfil =() => {
   }
 async function Seguir(){
   var f = new FormData();
-  console.log(idActual)
   f.append("idPerfil",idActual)
   f.append("idSeguidor", localStorage.getItem('login'));
-  f.append("ACTION","SEGUIR")
-  await axios.post(baseUrl, f)
+  await axios.post(baseUrl+"follow", f)
   .then(response=>{
-    response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
+    console.log(response)
+    response.data==true ? setSiguiendo(true) : setSiguiendo(false)     
   })
 }
 async function esSeguidor(){
   var f = new FormData();
   f.append("idPerfil",idActual)
   f.append("idSeguidor", localStorage.getItem('login'));
-  f.append("ACTION","ES_SEGUIDOR")
-  await axios.post(baseUrl, f)
+  await axios.post(baseUrl+"isFollower", f)
   .then(response=>{
       console.log("SEGUIDOR"+response.data)
-      response.data==1 ? setSiguiendo(true) : setSiguiendo(false)      
+      response.data==true ? setSiguiendo(true) : setSiguiendo(false)      
   })
 }
 
@@ -158,7 +156,9 @@ useEffect(()=>{
       return () => clearTimeout(timer);
     }
   }, [mostrarAlert]);
-
+  if (data.length === 0) {
+    return <div>Cargando...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+  }
   return (
        <><Navegacion /><div className="container py-5 h-100 vh-50">
       <div className="row d-flex justify-content-center align-items-center h-100">

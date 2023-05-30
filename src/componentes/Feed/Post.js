@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import {	Link,} from 'react-router-dom';
 import axios from 'axios';
 export const Post = (datos) => {
-  const baseUrl="http://localhost/apiAplicacion/"
+  const baseUrl="http://localhost:8080/"
   const [nLikesAct, setNlikes] = useState(parseInt(datos.nLikes));
   const [nRepostsAct, setNreposts] = useState(parseInt(datos.nReposts));
 
@@ -10,8 +10,7 @@ export const Post = (datos) => {
     var f = new FormData()
     f.append("idPost", datos.post_id)
     f.append("idCuenta",localStorage.getItem("login"))
-    f.append("ACTION","DAR_LIKE")
-    await axios.post(baseUrl, f)
+    await axios.post(baseUrl+"likePost", f)
     .then(response=>{
       setNlikes(nLikesAct + parseInt(response.data));
     })
@@ -51,7 +50,7 @@ export const Post = (datos) => {
               <div className="card-body">
                 <div className="d-flex flex-start align-items-center">
                   <img className="rounded-circle shadow-1-strong me-3"
-                    src={"data:image/png;base64,"+datos.imagen} alt="avatar" width="60"
+                    src={"http://localhost:8080/images/"+datos.imagen} alt="avatar" width="60"
                     height="60" />
                   <div>
                     

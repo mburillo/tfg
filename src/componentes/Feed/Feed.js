@@ -8,14 +8,14 @@ import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 
 
 export const Feed = () => {
-  const baseUrl="http://localhost/apiAplicacion/"
+  const baseUrl="http://localhost:8080/"
   const [data, setData] = useState([])
   const [toFollow, setToFollow] = useState([])
 
   
 
   const getAllPosts = async()=>{
-    await axios.get(baseUrl+"?feed="+localStorage.getItem('login'))
+    await axios.get(baseUrl+"getFeed/"+localStorage.getItem('login'))
     .then(response=>{
       console.log(response)
     setData(response.data)
@@ -23,7 +23,7 @@ export const Feed = () => {
   }
 
   const getWhoToFollow = async()=>{
-    await axios.get(baseUrl+"?porSeguir="+localStorage.getItem('login'))
+    await axios.get(baseUrl+"randomUsers/"+localStorage.getItem('login'))
     .then(response=>{
       console.log(response)
       setToFollow(response.data)
@@ -42,8 +42,7 @@ export const Feed = () => {
       console.log(comentario.comentario)
       f.append("id", localStorage.getItem('login'));
       f.append("comentario", comentario.comentario);
-      f.append("ACTION","GUARDAR_POST")
-      await axios.post(baseUrl, f)
+      await axios.post(baseUrl+"savePost", f)
       .then(response=>{
           console.log(response)
           getAllPosts()
@@ -108,15 +107,15 @@ export const Feed = () => {
           {data.map(post => (
             <div className="d-flex justify-content-center align-items-center">
         <Post
-          post_id={post.post_id}
-          usuario_id={post.usuario_id}
-          nombre={post.nombre}
-          contenido={post.contenido_post}
-          fecha={post.creado_en}
-          imagen={post.imagen}
-          nComentarios={post.num_comments}
-          nLikes={post.num_likes}
-          nReposts={post.num_respost}  
+          post_id={post.id}
+          usuario_id={post.user.id}
+          nombre={post.user.username}
+          contenido={post.content}
+          fecha={post.createdAt}
+          imagen={post.user.profileImage}
+          nComentarios={post.replies.length}
+          nLikes={post.likes.length}
+          nReposts={post.reposts.length}  
           nombreReposter = {post.nombreReposter}   
           idReposter = {post.idReposter}     
           />  
@@ -132,8 +131,8 @@ export const Feed = () => {
           {toFollow.map(profile => (
                   <>
                  <PorSeguir
-                imagen = {profile.imagen}
-                 nombre = {profile.nombre}
+                imagen = {profile.profileImage}
+                 nombre = {profile.username}
                  id = {profile.id}
                  />
                 

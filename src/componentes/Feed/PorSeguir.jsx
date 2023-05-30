@@ -2,24 +2,25 @@ import React, {useState } from 'react';
 import {	Link,} from 'react-router-dom';
 import axios from 'axios';
 export const PorSeguir = (datos) => {
-  const baseUrl="http://localhost/apiAplicacion/"
+  const baseUrl="http://localhost:8080/"
   const [siguiendo, setSiguiendo] = useState(false);
  
+
   async function Seguir(){
     var f = new FormData();
     f.append("idPerfil",datos.id)
     f.append("idSeguidor", localStorage.getItem('login'));
-    f.append("ACTION","SEGUIR")
-    await axios.post(baseUrl, f)
+    await axios.post(baseUrl+"follow", f)
     .then(response=>{
-      response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
+      console.log(response)
+      response.data==true ? setSiguiendo(true) : setSiguiendo(false)     
     })
   }
     return(
         <div className='col-12'>
         <div style={{ width: '100%' }}>
   <img className="rounded-circle shadow-1-strong me-3"
-  src={"data:image/png;base64,"+datos.imagen} alt="avatar" width="60"
+  src={"http://localhost:8080/images/"+datos.imagen} alt="avatar" width="60"
   height="60" /><div>
 
     <Link to={`/perfil/${datos.id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
