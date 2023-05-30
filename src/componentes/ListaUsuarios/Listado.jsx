@@ -22,16 +22,17 @@ export const Listado = ({ data, loggedUser }) => {
   useEffect(() => {
 
     const siguiendoInicial = {};
-    console.log(loggedUser)
+    console.log("ey"+loggedUser);
     newData.forEach((usuario) => {
-      console.log(usuario)
-      if (loggedUser.following.includes(usuario.id)) {
-        siguiendoInicial[usuario.id] = true;
-      } else {
-        siguiendoInicial[usuario.id] = false;
+      console.log(usuario);
+      console.log(loggedUser)
+      let siguiendoUsuario = false;
+      if (loggedUser.followingIds.size !== 0) {
+        siguiendoUsuario = loggedUser.followingIds.includes(usuario.id);
       }
+      siguiendoInicial[usuario.id] = siguiendoUsuario;
     });
-    setSiguiendo(siguiendoInicial);
+    setSiguiendo(siguiendoInicial);    
   }, [newData]);
 
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({
@@ -47,6 +48,7 @@ export const Listado = ({ data, loggedUser }) => {
     f.append("idSeguidor", localStorage.getItem('login'));
     await axios.post(baseUrl + "follow", f)
       .then(response => {
+        console.log(response)
         seguirUsuario(id)
         // response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
       })

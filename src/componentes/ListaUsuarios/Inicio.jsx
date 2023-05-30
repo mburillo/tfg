@@ -8,6 +8,7 @@ import { Listado } from './Listado'
 export const Inicio = () => {
   const baseUrl = "http://localhost:8080/"
   const [data, setData] = useState([])
+  const [loadingData, setLoadingData] = useState(false)
   const [usuarioLoggeado, setUsuarioLoggeado] = useState([])
   const [modalEliminar, setModalEliminar] = useState(false);
 
@@ -49,14 +50,13 @@ export const Inicio = () => {
     f.append("userId", localStorage.getItem('login'))
     await axios.post(baseUrl + "filter", f)
       .then(response => {
-        console.log(response.data)
         setData(response.data)
       })
   }
   const getCurrentUser = async () => {
     await axios.get(baseUrl + "getById", { params: { userId: localStorage.getItem('login') } })
       .then(response => {
-        console.log(response.data)
+        console.log(response)
         setUsuarioLoggeado(response.data)
       })
   }
@@ -97,7 +97,7 @@ export const Inicio = () => {
   const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
   // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
-
+  
   return (
     <>  <Navegacion /><div style={{ textAlign: 'center' }}>
       <div class="row">

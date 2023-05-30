@@ -116,7 +116,7 @@ export const Feed = () => {
                     imagen={post.user.profileImage}
                     nComentarios={post.replies.length}
                     nLikes={post.likes.length}
-                    nReposts={post.reposts.length}
+                    nReposts={post.repostedByUsers.length}
                     nombreReposter={post.nombreReposter}
                     idReposter={post.idReposter}
                   />

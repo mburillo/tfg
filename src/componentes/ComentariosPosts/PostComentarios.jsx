@@ -79,7 +79,7 @@ export const PostComentarios = () => {
             imagen={post.user.profileImage}
             nComentarios={post.replies.length}
             nLikes={post.likes.length}
-            nReposts={post.reposts.length}
+            nReposts={post.repostedByUsers.length}
             nombreReposter={post.nombreReposter}
             idReposter={post.idReposter}
           />
@@ -112,15 +112,15 @@ export const PostComentarios = () => {
 
 
 
-        {respuestas.map(respuesta => (
+        {post.replies.map(respuesta => (
           <div className="d-flex justify-content-center align-items-center">
             <><Post
               post_id={respuesta.id}
               usuario_id={respuesta.user.id}
-              nombre={respuesta.user.username}
+              nombre={respuesta.username}
               contenido={respuesta.content}
               fecha={respuesta.createdAt}
-              imagen={respuesta.user.profileImage}
+              imagen={respuesta.image}
               nComentarios={null}
               nLikes={null}
               nReposts={null}

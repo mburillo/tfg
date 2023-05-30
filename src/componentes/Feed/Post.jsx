@@ -17,17 +17,12 @@ export const Post = (datos) => {
   }
 
   async function Repost() {
-    const baseUrl = "http://localhost/apiAplicacion/"
     var f = new FormData()
     f.append("idPost", datos.post_id)
     f.append("idCuenta", localStorage.getItem("login"))
-    f.append("ACTION", "REPOST")
-    await axios.post(baseUrl, f)
+    await axios.post(baseUrl+"repost", f)
       .then(response => {
-        console.log(parseInt(response.data))
-        console.log(nLikesAct)
-        setNreposts(nRepostsAct + parseInt(response.data));
-        console.log(nLikesAct)
+        setNreposts(parseInt(response.data));
       })
   }
   const [hovereado, setHovereado] = useState(false);
