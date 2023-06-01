@@ -70,19 +70,19 @@ export const PostComentarios = () => {
     return (
       <><Navegacion />
         <div className="d-flex justify-content-center align-items-center">
-          <Post
-            post_id={post.id}
-            usuario_id={post.user.id}
-            nombre={post.user.username}
-            contenido={post.content}
-            fecha={post.createdAt}
-            imagen={post.user.profileImage}
-            nComentarios={post.replies.length}
-            nLikes={post.likes.length}
-            nReposts={post.repostedByUsers.length}
-            nombreReposter={post.nombreReposter}
-            idReposter={post.idReposter}
-          />
+        <Post
+                    post_id={post.id}
+                    usuario_id={post.user.id}
+                    nombre={post.user.username}
+                    contenido={post.content}
+                    fecha={post.createdAt}
+                    imagen={post.user.profileImage}
+                    nComentarios={post.replyIds.length}
+                    nLikes={post.likeIds.length}
+                    nReposts={post.repostedByUserIds.length}
+                    nombreReposter={post.nombreReposter}
+                    idReposter={post.idReposter}
+                  />
         </div>
         <div class="row d-flex justify-content-center mt-100 mb-100">
 
@@ -112,15 +112,15 @@ export const PostComentarios = () => {
 
 
 
-        {post.replies.map(respuesta => (
+        {post.replyIds.map(respuesta => (
           <div className="d-flex justify-content-center align-items-center">
             <><Post
               post_id={respuesta.id}
               usuario_id={respuesta.user.id}
-              nombre={respuesta.username}
+              nombre={respuesta.user.username}
               contenido={respuesta.content}
               fecha={respuesta.createdAt}
-              imagen={respuesta.image}
+              imagen={respuesta.user.profileImage}
               nComentarios={null}
               nLikes={null}
               nReposts={null}

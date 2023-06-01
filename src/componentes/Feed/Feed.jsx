@@ -105,23 +105,29 @@ export const Feed = () => {
             </Modal>
 
             <div className="col-md-6">
-              {data.map(post => (
-                <div className="d-flex justify-content-center align-items-center">
-                  <Post
-                    post_id={post.id}
-                    usuario_id={post.user.id}
-                    nombre={post.user.username}
-                    contenido={post.content}
-                    fecha={post.createdAt}
-                    imagen={post.user.profileImage}
-                    nComentarios={post.replies.length}
-                    nLikes={post.likes.length}
-                    nReposts={post.repostedByUsers.length}
-                    nombreReposter={post.nombreReposter}
-                    idReposter={post.idReposter}
-                  />
-                </div>
-              ))}
+            {data.map(post => {
+        const reposter = post.repostedByUserIds.find(user => user.followerIds.includes(parseInt(localStorage.getItem('login'))));
+
+        return (
+          <div className="d-flex justify-content-center align-items-center">
+            <Post
+              post_id={post.id}
+              usuario_id={post.user.id}
+              nombre={post.user.username}
+              contenido={post.content}
+              fecha={post.createdAt}
+              imagen={post.user.profileImage}
+              nComentarios={post.replyIds.length}
+              nLikes={post.likeIds.length}
+              nReposts={post.repostedByUserIds.length}
+              nombreReposter={reposter ? reposter.username : ''}
+              idReposter={reposter ? reposter.id : ''}
+            />
+          </div>
+        );
+      })}
+
+
             </div>
             <div className='col-md-3 '>
 
