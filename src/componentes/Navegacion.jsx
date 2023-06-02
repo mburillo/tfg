@@ -64,6 +64,9 @@ export const Navegacion = () => {
 									<li class="nav-item">
 										<Link to={`/feed`} className="navbar-brand"><span className='username'>Feed</span></Link>
 									</li>
+									<li class="nav-item">
+										<Link to={`/chat`} className="navbar-brand"><span className='username'>Chat</span></Link>
+									</li>
 								</ul>
 								<div className='d-flex'>
 									<img src={"http://localhost:8080/images/" + img} alt="" width="50" height="50" className="rounded-circle" />

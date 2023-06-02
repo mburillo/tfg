@@ -14,6 +14,7 @@ export const Rutas = () => {
 	return (
 
 		<Routes>
+			<Route path='/chat' element={<PrivateChat />} />
 			<Route path='/registro' element={
 				<RutaPublica>
 					<Registro />
@@ -27,7 +28,7 @@ export const Rutas = () => {
 			<Route path='/post/:idPost' element={<PostComentarios />} />
 			<Route path="/perfil/:idPerfil" element={<Perfil />} />
 			<Route path='/feed' element={<Feed />} />
-			<Route path='/chat' element={<PrivateChat />} />
+			
 			<Route index element=
 				{
 					<RutaPrivada>
