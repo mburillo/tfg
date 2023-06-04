@@ -7,7 +7,6 @@ import { CurrentUserMessage } from './CurrentUserMessage';
 export const PrivateChat = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
-  const [nickname, setNickname] = useState('');
   const [stompClient, setStompClient] = useState(null);
   const [connectedServer, setConnectedServer] = useState(false)
   const [img, setImg] = useState([])
@@ -33,10 +32,6 @@ export const PrivateChat = () => {
     };
   },[]);
 
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
-  };
-
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
@@ -44,7 +39,6 @@ export const PrivateChat = () => {
   const sendMessage = () => {
     if (message.trim()) {
       const chatMessage = {
-        nickname,
         content: message,
         id : localStorage.getItem("login")
       };
@@ -82,7 +76,7 @@ export const PrivateChat = () => {
             <h5 className="mb-0">Chat</h5>
           </div>
           <div className="card-body overflow-auto" data-mdb-perfect-scrollbar="true" style={{ position: 'relative', height: '400px' }}>
-          {messages.reverse().map(message => (
+          {messages.map(message => (
   message.sender.id == localStorage.getItem("login") ? (
     <CurrentUserMessage 
       key={message.id}
@@ -106,7 +100,7 @@ export const PrivateChat = () => {
           </div>
           <div className="card-footer text-muted d-flex justify-content-start align-items-center p-3">
             <img src={"http://localhost:8080/images/" + img} className="rounded-circle" alt="avatar 3" style={{ width: '50px', height: '50px' }} />
-            <input type="text" className="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Type message" 
+            <input type="text" className="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Escribe tu mensaje" 
              value={message}
              onChange={handleMessageChange}/>
             <a className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip"></i></a>
@@ -122,19 +116,6 @@ export const PrivateChat = () => {
     </div>
   </div>
 </section>
-
-    <div>
-      <h1>hola?</h1>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{msg.content}</li>
-        ))}
-      </ul>
-      <input
-        type="text"
-        value={message}
-        onChange={handleMessageChange} />
-      <button onClick={sendMessage}>Enviar</button>
-    </div></>
+</>
   );
 };

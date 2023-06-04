@@ -82,7 +82,7 @@ export const Navegacion = () => {
 				) : (
 					<nav class="navbar navbar-expand-sm">
 						<h1>
-							<Link to='/' className="navbar-brand">InfoYobs</Link>
+							<Link to='/' className="navbar-brand">CodingTogether</Link>
 						</h1>
 						<div class="container-fluid">
 							<div class="collapse navbar-collapse" id="mynavbar">
