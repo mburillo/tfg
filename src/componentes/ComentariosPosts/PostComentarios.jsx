@@ -70,19 +70,19 @@ export const PostComentarios = () => {
     return (
       <><Navegacion />
         <div className="d-flex justify-content-center align-items-center">
-        <Post
-                    post_id={post.id}
-                    usuario_id={post.user.id}
-                    nombre={post.user.username}
-                    contenido={post.content}
-                    fecha={post.createdAt}
-                    imagen={post.user.profileImage}
-                    nComentarios={post.replyIds.length}
-                    nLikes={post.likeIds.length}
-                    nReposts={post.repostedByUserIds.length}
-                    nombreReposter={post.nombreReposter}
-                    idReposter={post.idReposter}
-                  />
+          <Post
+            post_id={post.id}
+            usuario_id={post.user.id}
+            nombre={post.user.username}
+            contenido={post.content}
+            fecha={post.createdAt}
+            imagen={post.user.profileImage}
+            nComentarios={post.replyIds.length}
+            nLikes={post.likeIds.length}
+            nReposts={post.repostedByUserIds.length}
+            nombreReposter={post.nombreReposter}
+            idReposter={post.idReposter}
+          />
         </div>
         <div class="row d-flex justify-content-center mt-100 mb-100">
 

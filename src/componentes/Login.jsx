@@ -73,7 +73,6 @@ export const Login = () => {
       <div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`} role="alert">
         Ha habido un error al iniciar sesión
       </div></>
-
   )
 
 }

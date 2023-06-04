@@ -9,10 +9,9 @@ import { RutaPrivada } from './RutaPrivada';
 import { RutaPublica } from './RutaPublica';
 import { PostComentarios } from '../componentes/ComentariosPosts/PostComentarios'
 import { Navegacion } from '../componentes/Navegacion';
-import {PrivateChat} from '../componentes/Chat/PrivateChat';
+import { PrivateChat } from '../componentes/Chat/PrivateChat';
 export const Rutas = () => {
 	return (
-
 		<Routes>
 			<Route path='/chat' element={<PrivateChat />} />
 			<Route path='/registro' element={
@@ -28,7 +27,6 @@ export const Rutas = () => {
 			<Route path='/post/:idPost' element={<PostComentarios />} />
 			<Route path="/perfil/:idPerfil" element={<Perfil />} />
 			<Route path='/feed' element={<Feed />} />
-			
 			<Route index element=
 				{
 					<RutaPrivada>
@@ -37,6 +35,5 @@ export const Rutas = () => {
 				}
 			/>
 		</Routes>
-
 	);
 };

@@ -35,16 +35,16 @@ export const Registro = () => {
   }
 
   const register = async () => {
-    var f = new FormData();
-    f.append("usuario", credenciales.usuario);
-    f.append("clave", credenciales.clave);
-    f.append("lenguaje", credenciales.lenguaje);
-    f.append("nivel", credenciales.nivel)
-    f.append("imagen", picture.pictureAsFile)
-    await axios.post(baseUrl, f)
+    const formData = new FormData();
+    formData.append('password', credenciales.clave)
+    formData.append('username', credenciales.usuario);
+    formData.append('language', credenciales.lenguaje);
+    formData.append('level', credenciales.nivel);
+    formData.append('image', picture.pictureAsFile);
+    await axios.post(baseUrl, formData)
       .then(response => {
-        console.log(response.data)
-        if (response.data != false) {
+        console.log(response)
+        if (response.data != "") {
           localStorage.setItem('login', response.data.id)
           localStorage.setItem('nombre', credenciales.usuario)
           localStorage.setItem('image', response.data.profileImage)
@@ -73,51 +73,61 @@ export const Registro = () => {
 
 
   return (
-    <>    <Navegacion /><h1>Registro</h1>
-      <form class="row g-3" encType="multipart/form-data">
-        <div class="col-md-6">
-          <label htmlFor="inputEmail4" className="form-label" >  Nombre de usuario</label>
-          <input type="text" class="form-control" name="usuario" id="nombre-usuario-registro" onChange={handleChange} />
+    <>    <Navegacion />
+      <div className="d-flex justify-content-center">
+        <h1>Registro</h1>
+      </div>
+      <form className="row g-3" encType="multipart/form-data">
+        <div className="d-flex justify-content-center">
+          <div className="col-md-6">
+            <label htmlFor="nombre-usuario-registro" className="form-label">Nombre de usuario</label>
+            <input type="text" className="form-control" name="usuario" id="nombre-usuario-registro" onChange={handleChange} />
+          </div>
         </div>
-        <div class="col-md-6">
-          <label htmlFor="inputPassword4" className="form-label"  >Contraseña</label>
-          <input type="password" class="form-control" name="clave" id="clave-usuario-registro" onChange={handleChange} />
+        <div className="d-flex justify-content-center">
+          <div className="col-md-6">
+            <label htmlFor="clave-usuario-registro" className="form-label">Contraseña</label>
+            <input type="password" className="form-control" name="clave" id="clave-usuario-registro" onChange={handleChange} />
+          </div>
         </div>
-        <div class="col-md-6">
-          <label htmlFor="inputState" className="form-label"  >Lenguaje de programación que más maneja</label>
-          <select id="select-lenguaje" class="form-select" name="lenguaje" onChange={handleChange}>
-            <option selected>PHP</option>
-            <option>Java</option>
-          </select>
+        <div className="d-flex justify-content-center">
+          <div className="col-md-6">
+            <label htmlFor="select-lenguaje" className="form-label">Lenguaje de programación que más maneja</label>
+            <select id="select-lenguaje" className="form-select" name="lenguaje" onChange={handleChange}>
+              <option selected>PHP</option>
+              <option>Java</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md-6">
-          <label htmlFor="inputState" className="form-label">Nivel en ese lenguaje</label>
-          <select id="select-nivel" name="nivel" class="form-select" onChange={handleChange} >
-            <option selected>Principiante</option>
-            <option>Medio</option>
-            <option>Avanzado</option>
-          </select>
+        <div className="d-flex justify-content-center">
+          <div className="col-md-6">
+            <label htmlFor="select-nivel" className="form-label">Nivel en ese lenguaje</label>
+            <select id="select-nivel" name="nivel" className="form-select" onChange={handleChange} >
+              <option selected>Principiante</option>
+              <option>Medio</option>
+              <option>Avanzado</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md-4"></div>
-        <div class="col-md-6">
-          <label>
-            Selecciona una imagen:
-            <input type="file" name="image" onChange={uploadPicture} />
-          </label>
-
+        <div className="d-flex justify-content-center">
+          <div className="col-md-6 text-center">
+            <label>
+              Selecciona una imagen:
+              <input type="file" className="form-control" name="image" onChange={uploadPicture} />
+            </label>
+          </div>
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-12">
-          <div class="d-flex justify-content-center">
-            <input type="button" id="boton-registro" class="btn btn-primary rounded-pill" onClick={register} value="Registrarse"></input>
+        <div className="col-md-2"></div>
+        <div className="col-12">
+          <div className="d-flex justify-content-center">
+            <input type="button" id="boton-registro" className="btn btn-primary rounded-pill" onClick={register} value="Registrarse" />
           </div>
         </div>
       </form>
-
       <div className={`alert alert-danger ${mostrarAlert ? '' : 'd-none'}`} role="alert">
         Ha habido un error al registrarse
-      </div></>
-
+      </div>
+    </>
   )
 
 }

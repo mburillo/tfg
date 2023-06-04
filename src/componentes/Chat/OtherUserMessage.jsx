@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export const OtherUserMessage = (data) => {
   return (
     <div className="d-flex flex-row justify-content-start mb-4">

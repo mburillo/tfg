@@ -20,7 +20,7 @@ export const Post = (datos) => {
     var f = new FormData()
     f.append("idPost", datos.post_id)
     f.append("idCuenta", localStorage.getItem("login"))
-    await axios.post(baseUrl+"repost", f)
+    await axios.post(baseUrl + "repost", f)
       .then(response => {
         setNreposts(parseInt(response.data));
       })
@@ -31,8 +31,6 @@ export const Post = (datos) => {
     setHovereado(!hovereado);
   };
   return (
-
-
     <div className="col-md-12 col-lg-10 col-xl-8">
       <div
         className={
@@ -48,15 +46,12 @@ export const Post = (datos) => {
               src={"http://localhost:8080/images/" + datos.imagen} alt="avatar" width="60"
               height="60" />
             <div>
-
-
               <Link to={`/perfil/${datos.usuario_id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
               <p className="text-muted small mb-0">
                 {datos.fecha}
               </p>
             </div>
           </div>
-
           <p className="mt-3 mb-4 pb-2">
             {datos.contenido}
           </p>
@@ -71,8 +66,6 @@ export const Post = (datos) => {
                 <i className="fas fa-share me-2"></i>
                 <p className="mb-0">Share  {nRepostsAct}</p>
               </a></> : null}
-
-
             {datos.nombreReposter ? <div className="d-flex align-items-center me-3">
               <i className="fas fa-share me-2"></i>
               <p className="mb-0">Compartido por: <Link to={`/perfil/${datos.idReposter}`}> {datos.nombreReposter}</Link></p>
@@ -81,6 +74,5 @@ export const Post = (datos) => {
         </div>
       </div>
     </div>
-
   )
 }

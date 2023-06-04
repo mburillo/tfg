@@ -48,7 +48,6 @@ export const Navegacion = () => {
 
 	return (
 		<>
-
 			<header>
 				{isLogged ? (
 					<nav class="navbar navbar-expand-sm">
@@ -78,7 +77,6 @@ export const Navegacion = () => {
 							</div>
 						</div>
 					</nav>
-
 				) : (
 					<nav class="navbar navbar-expand-sm">
 						<h1>
@@ -99,7 +97,6 @@ export const Navegacion = () => {
 					</nav>
 				)}
 			</header>
-
 			<Outlet />
 		</>
 	)

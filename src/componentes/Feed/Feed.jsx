@@ -75,7 +75,6 @@ export const Feed = () => {
       <div className="main-body">
         <div className="container-fluid py-3">
           <div className="row d-flex justify-content-center">
-
             <h1 className="text-center">Tu Feed</h1>
             <div className="col-md-3 lg-3 d-flex justify-content-center align-items-center ">
               <button style={{ position: 'fixed', top: '50%', width: '25%', left: '3%', zIndex: 999, display: 'block' }} type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => abrirCerrarModalPublicar()}>Publicar</button>
@@ -105,35 +104,30 @@ export const Feed = () => {
             </Modal>
 
             <div className="col-md-6">
-            {data.map(post => {
-        const reposter = post.repostedByUserIds.find(user => user.followerIds.includes(parseInt(localStorage.getItem('login'))));
+              {data.map(post => {
+                const reposter = post.repostedByUserIds.find(user => user.followerIds.includes(parseInt(localStorage.getItem('login'))));
 
-        return (
-          <div className="d-flex justify-content-center align-items-center">
-            <Post
-              post_id={post.id}
-              usuario_id={post.user.id}
-              nombre={post.user.username}
-              contenido={post.content}
-              fecha={post.createdAt}
-              imagen={post.user.profileImage}
-              nComentarios={post.replyIds.length}
-              nLikes={post.likeIds.length}
-              nReposts={post.repostedByUserIds.length}
-              nombreReposter={reposter ? reposter.username : ''}
-              idReposter={reposter ? reposter.id : ''}
-            />
-          </div>
-        );
-      })}
-
-
+                return (
+                  <div className="d-flex justify-content-center align-items-center">
+                    <Post
+                      post_id={post.id}
+                      usuario_id={post.user.id}
+                      nombre={post.user.username}
+                      contenido={post.content}
+                      fecha={post.createdAt}
+                      imagen={post.user.profileImage}
+                      nComentarios={post.replyIds.length}
+                      nLikes={post.likeIds.length}
+                      nReposts={post.repostedByUserIds.length}
+                      nombreReposter={reposter ? reposter.username : ''}
+                      idReposter={reposter ? reposter.id : ''}
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className='col-md-3 '>
-
-
               <div className="d-flex flex-start align-items-center " style={{ position: 'sticky', top: '50%', width: '50%', zIndex: 999 }}>
-
                 <h3 style={{ position: 'absolute', top: '-40px' }}>A quien seguir</h3>
                 {toFollow.map(profile => (
                   <>
@@ -142,8 +136,6 @@ export const Feed = () => {
                       nombre={profile.username}
                       id={profile.id}
                     />
-
-
                   </>
                 ))}
               </div>
