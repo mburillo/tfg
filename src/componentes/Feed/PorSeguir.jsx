@@ -22,13 +22,11 @@ export const PorSeguir = (datos) => {
         <img className="rounded-circle shadow-1-strong me-3"
           src={"http://localhost:8080/images/" + datos.imagen} alt="avatar" width="60"
           height="60" /><div>
-
           <Link to={`/perfil/${datos.id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
           {siguiendo ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-danger flex-grow-1 rounded-pill" onClick={() => Seguir()} >Dejar de seguir</button>
             : <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => Seguir()} >Seguir</button>}
         </div>
       </div>
     </div>
-
   )
 }

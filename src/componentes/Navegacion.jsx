@@ -48,7 +48,6 @@ export const Navegacion = () => {
 
 	return (
 		<>
-
 			<header>
 				{isLogged ? (
 					<nav class="navbar navbar-expand-sm">
@@ -64,6 +63,9 @@ export const Navegacion = () => {
 									<li class="nav-item">
 										<Link to={`/feed`} className="navbar-brand"><span className='username'>Feed</span></Link>
 									</li>
+									<li class="nav-item">
+										<Link to={`/chat`} className="navbar-brand"><span className='username'>Chat</span></Link>
+									</li>
 								</ul>
 								<div className='d-flex'>
 									<img src={"http://localhost:8080/images/" + img} alt="" width="50" height="50" className="rounded-circle" />
@@ -75,11 +77,10 @@ export const Navegacion = () => {
 							</div>
 						</div>
 					</nav>
-
 				) : (
 					<nav class="navbar navbar-expand-sm">
 						<h1>
-							<Link to='/' className="navbar-brand">InfoYobs</Link>
+							<Link to='/' className="navbar-brand">CodingTogether</Link>
 						</h1>
 						<div class="container-fluid">
 							<div class="collapse navbar-collapse" id="mynavbar">
@@ -96,7 +97,6 @@ export const Navegacion = () => {
 					</nav>
 				)}
 			</header>
-
 			<Outlet />
 		</>
 	)

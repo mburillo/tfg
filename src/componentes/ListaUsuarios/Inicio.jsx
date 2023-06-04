@@ -60,29 +60,7 @@ export const Inicio = () => {
         setUsuarioLoggeado(response.data)
       })
   }
-  /**   const peticionDelete=async()=>{
-      var f = new FormData();
-      f.append("METHOD", "DELETE");
-      console.log(usuarioSeleccionado.id)
-      await axios.post(baseUrl, f, {params: {id: usuarioSeleccionado.id}})
-      .then(response=>{
-          console.log(data)
-        setData(data.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
-        abrirCerrarModalEliminar();
-      }).catch(error=>{
-        console.log(error);
-      })
-    }
-  
-  
-    const seleccionarUsuario=(usuario)=>{
-      setUsuarioSeleccionado(usuario);
-      abrirCerrarModalEliminar()
-    }
-  
-    const abrirCerrarModalEliminar=()=>{
-      setModalEliminar(!modalEliminar);
-    }*/
+
   useEffect(() => {
     getCurrentUser()
   }, [])
@@ -97,7 +75,7 @@ export const Inicio = () => {
   const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
   // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
-  
+
   return (
     <>  <Navegacion /><div style={{ textAlign: 'center' }}>
       <div class="row">
@@ -134,21 +112,13 @@ export const Inicio = () => {
           data={currentPosts}
           loggedUser={usuarioLoggeado}
         />
-
         <Paginacion
           postsPerPage={postsPerPage}
           totalPosts={data.length}
           paginate={paginate}
         />
       </div>
-
     </div>
-
     </>
-
-
-
-
-
   )
 }

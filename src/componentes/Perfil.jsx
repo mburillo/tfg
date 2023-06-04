@@ -99,18 +99,18 @@ export const Perfil = () => {
 
 
   const peticionPatch = async () => {
-    const payload = {
-      id: idActual,
-      usuario: credenciales.usuario,
-      lenguaje: credenciales.lenguaje,
-      nivel: credenciales.nivel,
-      imagen: picture.pictureAsFile
-    };
-    await axios.patch(baseUrl + "update", payload)
+    const formData = new FormData();
+    formData.append('id', idActual);
+    formData.append('username', credenciales.usuario);
+    formData.append('language', credenciales.lenguaje);
+    formData.append('level', credenciales.nivel);
+    formData.append('image', picture.pictureAsFile);
+    await axios.patch(baseUrl + "update", formData)
       .then(response => {
         console.log(response.data);
         if (response.data !== false) {
           localStorage.setItem('nombre', response.data.username);
+          localStorage.setItem('image', response.data.profileImage);
           getUsuario();
           abrirCerrarModalEditar();
         } else {
@@ -165,7 +165,6 @@ export const Perfil = () => {
           <div className="card" style={{ radius: "15px" }}>
             <div className="card-body p-4">
               <div className="d-flex text-black">
-
                 {<><div className="flex-shrink-0"><img src={"http://localhost:8080/images/" + data.profileImage} alt="imagen-perfil" width="100" height="100" className="rounded-circle" /></div>
                   <div className="flex-grow-1 ms-3">
                     <h5 id="tarjeta-nombre" className="mb-1">{data.username}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
@@ -182,11 +181,8 @@ export const Perfil = () => {
                       <div>
                         <p className="small text-muted mb-1">Id</p>
                         <p id="tarjeta-id" className="mb-0">{data.id}</p>
-
                       </div>
-
                     </div>
-
                     <div className="d-flex pt-1">
                       <Link to={`/feed`}> <button type="button" className="btn btn-outline-primary me-1 flex-grow-1 rounded-pill">Chat</button></Link>
                       {data.id == localStorage.getItem('login') ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => abrirCerrarModalEditar()} >Editar</button>
@@ -194,7 +190,6 @@ export const Perfil = () => {
                           : <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => Seguir()} >Seguir</button>}
                     </div>
                   </div></>}
-
               </div>
             </div>
           </div>
@@ -203,8 +198,6 @@ export const Perfil = () => {
         Ha habido un error al editar el usuario
       </div>
     </div>
-
-
       <Modal isOpen={modalEditar}>
         <ModalHeader>
           Editar usuario
@@ -212,7 +205,7 @@ export const Perfil = () => {
         <ModalBody>
           <div class="col-md-12">
             <label htmlFor="inputEmail4" className="form-label" >  Nombre de usuario</label>
-            <input type="text" class="form-control" name="usuario" id="nombre-usuario-registro" value={data.username} onChange={handleChange} />
+            <input type="text" class="form-control" name="usuario" id="nombre-usuario-registro" value={data.username} onChange={handleChange} disabled />
           </div>
           <div class="col-md-12">
             <label htmlFor="inputState" className="form-label"  >Lenguaje de programación que más maneja</label>
@@ -229,10 +222,10 @@ export const Perfil = () => {
               <option>Avanzado</option>
             </select>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label>
               Selecciona una imagen:
-              <input type="file" name="image" onChange={uploadPicture} />
+              <input type="file" className="form-control" name="image" onChange={uploadPicture} />
             </label>
           </div>
         </ModalBody>

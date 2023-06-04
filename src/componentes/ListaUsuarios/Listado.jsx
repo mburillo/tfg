@@ -22,7 +22,7 @@ export const Listado = ({ data, loggedUser }) => {
   useEffect(() => {
 
     const siguiendoInicial = {};
-    console.log("ey"+loggedUser);
+    console.log("ey" + loggedUser);
     newData.forEach((usuario) => {
       console.log(usuario);
       console.log(loggedUser)
@@ -32,7 +32,7 @@ export const Listado = ({ data, loggedUser }) => {
       }
       siguiendoInicial[usuario.id] = siguiendoUsuario;
     });
-    setSiguiendo(siguiendoInicial);    
+    setSiguiendo(siguiendoInicial);
   }, [newData]);
 
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({
@@ -50,7 +50,6 @@ export const Listado = ({ data, loggedUser }) => {
       .then(response => {
         console.log(response)
         seguirUsuario(id)
-        // response.data==1 ? setSiguiendo(true) : setSiguiendo(false)     
       })
   }
 
@@ -114,16 +113,11 @@ export const Listado = ({ data, loggedUser }) => {
                   {localStorage.getItem('login') == usuario.id ? <button className="btn btn-danger rounded-pill" onClick={() => seleccionarUsuario(usuario)}>Eliminar</button>
                     : siguiendo[usuario.id] ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-danger flex-grow-1 rounded-pill" onClick={() => Seguir(usuario.id)} >Dejar de seguir</button> :
                       <button type="button" id="boton-abrir-modal-editar" className="btn btn-primary flex-grow-1 rounded-pill" onClick={() => Seguir(usuario.id)} >Seguir</button>}
-
                 </li>
               </ul>
             </div>
           </div>
         ))}
-
-
-
-
         <Modal isOpen={modalEliminar}>
           <ModalHeader>
             Borrar usuario
