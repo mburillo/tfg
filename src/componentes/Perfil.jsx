@@ -23,7 +23,6 @@ export const Perfil = () => {
   });
 
   const [picture, setPicture] = useState({});
-  const [comentario, setComentario] = useState({ comentario: '' });
 
   const uploadPicture = (e) => {
     setPicture({
@@ -39,16 +38,6 @@ export const Perfil = () => {
       [name]: value
     }))
   }
-
-  const cambioComentario = e => {
-    const { name, value } = e.target;
-    setComentario((prevState) => ({
-      ...prevState,
-      [name]: value
-    }))
-  }
-
-
 
   const getComentarios = async () => {
 
@@ -78,25 +67,6 @@ export const Perfil = () => {
         response.data == true ? setSiguiendo(true) : setSiguiendo(false)
       })
   }
-
-
-
-
-
-  const guardarComentario = async () => {
-    var f = new FormData();
-    console.log(comentario.comentario)
-    f.append("idPerfil", idActual)
-    f.append("idComentador", localStorage.getItem('login'));
-    f.append("comentario", comentario.comentario);
-    f.append("ACTION", "GUARDAR_COMENTARIO")
-    await axios.post(baseUrl, f)
-      .then(response => {
-        console.log(response.data)
-        getComentarios()
-      })
-  }
-
 
   const peticionPatch = async () => {
     const formData = new FormData();
@@ -165,7 +135,7 @@ export const Perfil = () => {
           <div className="card" style={{ radius: "15px" }}>
             <div className="card-body p-4">
               <div className="d-flex text-black">
-                {<><div className="flex-shrink-0"><img src={"http://localhost:8080/images/" + data.profileImage} alt="imagen-perfil" width="100" height="100" className="rounded-circle" /></div>
+                {<><div className="flex-shrink-0"><img src={data.profileImage} alt="imagen-perfil" width="100" height="100" className="rounded-circle" /></div>
                   <div className="flex-grow-1 ms-3">
                     <h5 id="tarjeta-nombre" className="mb-1">{data.username}</h5><p className="mb-2 pb-1" style={{ color: "#2b2a2a" }}>Programador</p>
                     <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
