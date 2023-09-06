@@ -6,7 +6,7 @@ import { Navegacion } from './Navegacion';
 
 export const Registro = () => {
 
-  const baseUrl = "http://localhost:8080/register"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/register"
   const navigate = useNavigate();
   const [mostrarAlert, setMostrarAlert] = useState(false);
   const [credenciales, setCredenciales] = useState({

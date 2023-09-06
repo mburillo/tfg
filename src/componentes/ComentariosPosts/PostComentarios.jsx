@@ -11,7 +11,7 @@ import { Post } from '../Feed/Post'
 
 export const PostComentarios = () => {
 
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/"
   const [post, setPost] = useState([])
   const [comentario, setComentario] = useState({ comentario: '' });
   const [datosCargados, setDatosCargados] = useState(false)

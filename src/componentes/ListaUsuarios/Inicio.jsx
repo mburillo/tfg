@@ -6,7 +6,7 @@ import { Navegacion } from '../Navegacion';
 import { Paginacion } from './Paginacion';
 import { Listado } from './Listado'
 export const Inicio = () => {
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/"
   const [data, setData] = useState([])
   const [loadingData, setLoadingData] = useState(false)
   const [usuarioLoggeado, setUsuarioLoggeado] = useState([])

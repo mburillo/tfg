@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, } from 'react-router-dom';
 import axios from 'axios';
 export const Post = (datos) => {
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app"
   const [nLikesAct, setNlikes] = useState(parseInt(datos.nLikes));
   const [nRepostsAct, setNreposts] = useState(parseInt(datos.nReposts));
+  const [fechaFormateada, setFechaFormateada] = useState('');
 
+  useEffect(() => {
+    const dateObject = new Date(datos.fecha);
+    const opciones = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const fechaLegible = dateObject.toLocaleDateString('es-ES', opciones);
+    setFechaFormateada(fechaLegible);
+  }, [datos]);
+  
   async function darLike() {
     var f = new FormData()
     f.append("idPost", datos.post_id)
@@ -43,12 +51,12 @@ export const Post = (datos) => {
         <div className="card-body">
           <div className="d-flex flex-start align-items-center">
             <img className="rounded-circle shadow-1-strong me-3"
-              src={"http://localhost:8080/images/" + datos.imagen} alt="avatar" width="60"
+              src={datos.imagen} alt="avatar" width="60"
               height="60" />
             <div>
               <Link to={`/perfil/${datos.usuario_id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
               <p className="text-muted small mb-0">
-                {datos.fecha}
+                {fechaFormateada}
               </p>
             </div>
           </div>

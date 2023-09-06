@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Navegacion } from './Navegacion';
 export const Perfil = () => {
 
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/"
   const params = useParams();
   const [idActual, setIdActual] = useState(params.idPerfil)
   const [data, setData] = useState([])

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navegacion } from './Navegacion';
 export const Login = () => {
 
-  const baseUrl = "http://localhost:8080/login"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/login"
   const navigate = useNavigate();
   const [credenciales, setCredenciales] = useState({
     usuario: '',

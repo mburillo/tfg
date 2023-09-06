@@ -8,7 +8,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 
 
 export const Feed = () => {
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/"
   const [data, setData] = useState([])
   const [toFollow, setToFollow] = useState([])
 

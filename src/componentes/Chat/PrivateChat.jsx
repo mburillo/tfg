@@ -11,7 +11,7 @@ export const PrivateChat = () => {
   const [connectedServer, setConnectedServer] = useState(false)
   const [img, setImg] = useState([])
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("https://codingtogetherspring-production.up.railway.app/ws");
     const client = Stomp.over(socket);
 
     client.connect({}, () => {
@@ -48,7 +48,7 @@ export const PrivateChat = () => {
   };
 
   const fetchMessages = () => {
-    fetch('http://localhost:8080/getChatMessages')
+    fetch('https://codingtogetherspring-production.up.railway.app/getChatMessages')
       .then(response => response.json())
       .then(data => setMessages(data))
       .catch(error => console.error(error));
@@ -99,7 +99,7 @@ export const PrivateChat = () => {
                   ))}
                 </div>
                 <div className="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-                  <img src={"http://localhost:8080/images/" + img} className="rounded-circle" alt="avatar 3" style={{ width: '50px', height: '50px' }} />
+                  <img src={img} className="rounded-circle" alt="avatar 3" style={{ width: '50px', height: '50px' }} />
                   <input type="text" className="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Escribe tu mensaje"
                     value={message}
                     onChange={handleMessageChange} />

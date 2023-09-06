@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 export const Navegacion = () => {
-	const baseUrl = "http://localhost/apiAplicacion/"
 	const navigate = useNavigate();
 
 	const [id, setID] = useState([])
@@ -68,7 +67,7 @@ export const Navegacion = () => {
 									</li>
 								</ul>
 								<div className='d-flex'>
-									<img src={"http://localhost:8080/images/" + img} alt="" width="50" height="50" className="rounded-circle" />
+									<img src={img} alt="" width="50" height="50" className="rounded-circle" />
 									<Link to={`/perfil/${id}`} className="navbar-brand"><span className='username'>{nombre}</span></Link>
 									<Button className='btn-logout rounded-pill' variant="danger" onClick={onLogout}>
 										Cerrar sesión

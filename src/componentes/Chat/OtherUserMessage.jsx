@@ -4,7 +4,7 @@ export const OtherUserMessage = (data) => {
   return (
     <div className="d-flex flex-row justify-content-start mb-4">
       <Link to={`/perfil/${data.user_id}`}><img
-        src={"http://localhost:8080/images/" + data.profileImage}
+        src={data.profileImage}
         alt="avatar 3"
         className="rounded-circle" style={{ width: '50px', height: '50px' }}
       /></Link>

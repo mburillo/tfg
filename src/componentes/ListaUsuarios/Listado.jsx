@@ -6,7 +6,7 @@ import axios from 'axios';
 export const Listado = ({ data, loggedUser }) => {
   const navigate = useNavigate();
 
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app/"
   const [newData, setData] = useState([])
   const [modalEliminar, setModalEliminar] = useState(false);
   const [datosCargados, setDatosCargados] = useState(false)
@@ -104,7 +104,7 @@ export const Listado = ({ data, loggedUser }) => {
               }
               onMouseEnter={() => toggleHover(indice)}
               onMouseLeave={() => toggleHover(-1)}>
-              <img src={"http://localhost:8080/images/" + usuario.profileImage} alt="" width="100" height="100" class="rounded-circle" />
+              <img src={usuario.profileImage} alt="" width="100" height="100" class="rounded-circle" />
               <Link to={`/perfil/${usuario.id}`}> <h5 class="mb-0">{usuario.username}</h5> </Link>
               <span class="small text-uppercase text-muted">{usuario.favoriteLanguage.language}</span>
               <span class="small text-uppercase text-muted"> {usuario.favoriteLanguage.experienceLevel}</span>

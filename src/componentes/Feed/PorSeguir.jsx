@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, } from 'react-router-dom';
 import axios from 'axios';
 export const PorSeguir = (datos) => {
-  const baseUrl = "http://localhost:8080/"
+  const baseUrl = "https://codingtogetherspring-production.up.railway.app"
   const [siguiendo, setSiguiendo] = useState(false);
 
 
@@ -20,7 +20,7 @@ export const PorSeguir = (datos) => {
     <div className='col-12'>
       <div style={{ width: '100%' }}>
         <img className="rounded-circle shadow-1-strong me-3"
-          src={"http://localhost:8080/images/" + datos.imagen} alt="avatar" width="60"
+          src={datos.imagen} alt="avatar" width="60"
           height="60" /><div>
           <Link to={`/perfil/${datos.id}`}><h6 className="fw-bold text-primary mb-1">{datos.nombre}</h6></Link>
           {siguiendo ? <button type="button" id="boton-abrir-modal-editar" className="btn btn-danger flex-grow-1 rounded-pill" onClick={() => Seguir()} >Dejar de seguir</button>
