@@ -12,7 +12,6 @@ import { Navegacion } from '../componentes/Navegacion';
 import { PrivateChat } from '../componentes/Chat/PrivateChat';
 export const Rutas = () => {
 	return (
-		<BrowserRouter basename='/tfg'>
 		<Routes>
 			<Route path='/chat' element={<PrivateChat />} />
 			<Route path='/registro' element={
@@ -36,6 +35,5 @@ export const Rutas = () => {
 				}
 			/>
 		</Routes>
-		</BrowserRouter>
 	);
 };

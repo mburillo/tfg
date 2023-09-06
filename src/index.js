@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 //import { Navegacion } from './componentes/Navegacion';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
+    <BrowserRouter basename='/tfg'>
     <App />
     </BrowserRouter>
 );
