@@ -22,12 +22,9 @@ export const Listado = ({ data, loggedUser }) => {
   useEffect(() => {
 
     const siguiendoInicial = {};
-    console.log("ey" + loggedUser);
     newData.forEach((usuario) => {
-      console.log(usuario);
-      console.log(loggedUser)
       let siguiendoUsuario = false;
-      if (loggedUser.followingIds.size !== 0) {
+      if (loggedUser && loggedUser.followingIds && loggedUser.followingIds.size !== 0) {
         siguiendoUsuario = loggedUser.followingIds.includes(usuario.id);
       }
       siguiendoInicial[usuario.id] = siguiendoUsuario;
