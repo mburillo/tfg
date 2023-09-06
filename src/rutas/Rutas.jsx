@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Login } from '../componentes/Login';
 import { Inicio } from '../componentes/ListaUsuarios/Inicio';
@@ -12,6 +12,7 @@ import { Navegacion } from '../componentes/Navegacion';
 import { PrivateChat } from '../componentes/Chat/PrivateChat';
 export const Rutas = () => {
 	return (
+		<BrowserRouter basename='/tfg'>
 		<Routes>
 			<Route path='/chat' element={<PrivateChat />} />
 			<Route path='/registro' element={
@@ -35,5 +36,6 @@ export const Rutas = () => {
 				}
 			/>
 		</Routes>
+		</BrowserRouter>
 	);
 };
